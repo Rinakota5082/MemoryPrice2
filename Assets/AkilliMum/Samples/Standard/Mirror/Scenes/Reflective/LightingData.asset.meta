@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 1ca4c1bbd8b4f3a47bfbf63e9a1b0675
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 112000000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 81728
+  packageName: Legacy Mirror Shaders / AR-VR Ready
+  packageVersion: 6.01
+  assetPath: Assets/AkilliMum/Samples/Standard/Mirror/Scenes/Reflective/LightingData.asset
+  uploadId: 778213
