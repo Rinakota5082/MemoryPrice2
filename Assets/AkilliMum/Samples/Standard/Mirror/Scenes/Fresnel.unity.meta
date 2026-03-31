@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d423bed17388d094cb01b21daba94140
+timeCreated: 1486492252
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 81728
+  packageName: Legacy Mirror Shaders / AR-VR Ready
+  packageVersion: 6.01
+  assetPath: Assets/AkilliMum/Samples/Standard/Mirror/Scenes/Fresnel.unity
+  uploadId: 778213
