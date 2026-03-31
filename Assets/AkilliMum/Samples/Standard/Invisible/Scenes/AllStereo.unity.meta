@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 385e58089dee54f048b34712dbae7d36
+timeCreated: 1524398345
+licenseType: Store
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 81728
+  packageName: Legacy Mirror Shaders / AR-VR Ready
+  packageVersion: 6.01
+  assetPath: Assets/AkilliMum/Samples/Standard/Invisible/Scenes/AllStereo.unity
+  uploadId: 778213

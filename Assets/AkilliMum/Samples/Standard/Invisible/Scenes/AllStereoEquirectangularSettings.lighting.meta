@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b1b7dd26a25dd0d438f491688bfcca3e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4890085278179872738
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 81728
+  packageName: Legacy Mirror Shaders / AR-VR Ready
+  packageVersion: 6.01
+  assetPath: Assets/AkilliMum/Samples/Standard/Invisible/Scenes/AllStereoEquirectangularSettings.lighting
+  uploadId: 778213

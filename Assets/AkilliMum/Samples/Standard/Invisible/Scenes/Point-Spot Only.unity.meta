@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 82e0e2552683040f380e0401ff8b6c6c
+timeCreated: 1524398345
+licenseType: Store
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 81728
+  packageName: Legacy Mirror Shaders / AR-VR Ready
+  packageVersion: 6.01
+  assetPath: Assets/AkilliMum/Samples/Standard/Invisible/Scenes/Point-Spot Only.unity
+  uploadId: 778213
