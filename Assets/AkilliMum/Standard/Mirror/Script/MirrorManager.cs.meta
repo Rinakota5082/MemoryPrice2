@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 0cce0e5fd1c939643a7f6a375e361775
+timeCreated: 1549729639
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 81728
+  packageName: Legacy Mirror Shaders / AR-VR Ready
+  packageVersion: 6.01
+  assetPath: Assets/AkilliMum/Standard/Mirror/Script/MirrorManager.cs
+  uploadId: 778213

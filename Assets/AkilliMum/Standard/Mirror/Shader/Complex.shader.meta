@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 0686a56254f6fbb45acaf46b98ccee1a
+timeCreated: 1549737571
+licenseType: Store
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 81728
+  packageName: Legacy Mirror Shaders / AR-VR Ready
+  packageVersion: 6.01
+  assetPath: Assets/AkilliMum/Standard/Mirror/Shader/Complex.shader
+  uploadId: 778213

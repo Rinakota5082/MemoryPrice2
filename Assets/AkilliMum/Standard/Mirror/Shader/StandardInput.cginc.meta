@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: f2316e3ef9830e34f800515fc594131e
+timeCreated: 1549738524
+licenseType: Store
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 81728
+  packageName: Legacy Mirror Shaders / AR-VR Ready
+  packageVersion: 6.01
+  assetPath: Assets/AkilliMum/Standard/Mirror/Shader/StandardInput.cginc
+  uploadId: 778213
