@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 4573606a1622b4908a6609cb1a633343
+timeCreated: 1485599025
+licenseType: Store
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 81728
+  packageName: Legacy Mirror Shaders / AR-VR Ready
+  packageVersion: 6.01
+  assetPath: Assets/AkilliMum/Standard/Invisible/Shaders/Invisibles.shader
+  uploadId: 778213
