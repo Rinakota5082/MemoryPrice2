@@ -27492,7 +27492,7 @@ HingeJoint:
     contactDistance: 0
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
@@ -27518,8 +27518,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -36841,61 +36841,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cce0e5fd1c939643a7f6a375e361775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AkilliMum.Standard.Mirror.MirrorManager
-  IsDebug: 0
-  IsEnabled: 1
-  Name: 
-  IsMirrorInMirror: 0
-  MirrorInMirrorId: 
-  TurnOffOcclusion: 0
-  Platform: 0
-  ForceMultiPass: 0
-  WorkingType: 1
-  ClearBackGround: 1
-  ClearColor:
-    r: 0
-    g: 0
-    b: 0
-    a: 0
-  UpVector: 2
-  CameraLODLevel: 0
-  UseClipping: 0
-  ClippingPercentage: 20
-  ClipUV: 99
-  ClipEye: 0
-  HDR: 0
-  FOV: 0
-  MSAALevel: 0
-  RenderPostProcessing: 0
-  RequiresDepthTexture: 0
-  RequiresOpaqueTexture: 0
-  FilterMode: 1
-  MipMapping: 0
-  DisablePixelLights: 0
-  Shadow: 0
-  Cull: 0
-  CullDistance: 0
-  RenderTextureSize: 0
-  ManualSize: 256
-  ClipPlaneOffset: 0.02
-  ReflectLayers:
-    m_Bits: 4294967295
-  ReflectiveObjects:
-  - {fileID: 2095904510}
-  DrawAlways: 0
-  FakeCamera: {fileID: 0}
-  EnableDepth: 0
-  EnableDepthBlur: 0
-  DepthBlurShader: {fileID: 0}
-  DepthBlurMaterial: {fileID: 0}
-  DepthBlurCutoff: 0.8
-  DepthBlurIterations: 3
-  DepthBlurSurfacePower: 1
-  DepthBlurHorizontalMultiplier: 1
-  DepthBlurVerticalMultiplier: 1
-  CustomShaders: []
-  UIImage: {fileID: 0}
-  UIImageDepth: {fileID: 0}
-  _cameraAttached: {fileID: 0}
 --- !u!114 &2007448612
 MonoBehaviour:
   m_ObjectHideFlags: 0
