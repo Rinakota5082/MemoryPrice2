@@ -5,8 +5,8 @@ using System; // Добавляем для работы с событием
 public class KeypadController : MonoBehaviour
 {
     [Header("Code Settings")]
-    [SerializeField] private string correctCode = "1234"; // Код, который нужно угадать
-    [SerializeField] private int maxDigits = 4; // Максимальная длина кода
+    [SerializeField] private string correctCode = "12345"; // Код, который нужно угадать
+    [SerializeField] private int maxDigits = 5; // Максимальная длина кода
 
     [Header("Feedback")]
     [SerializeField] private MeshRenderer displayRenderer; // Ссылка на дисплей (для подсветки)
