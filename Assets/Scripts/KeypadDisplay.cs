@@ -4,21 +4,30 @@ using UnityEngine;
 public class KeypadDisplay : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private TextMeshProUGUI displayText; // Перетащите сюда ваш TMP объект
-    [SerializeField] private KeypadController keypadController; // Ссылка на ваш скрипт панели
-    [SerializeField] private string placeholderText = "00000";
+    [SerializeField] private TMP_Text displayText; 
+    [SerializeField] private KeypadController keypadController;
+    [Header("Display Settings")]
+    [SerializeField] private string placeholderText = "00000";    // Текст, когда код пустой
 
-    void OnEnable()
+    void Start()
     {
-        // Подпишитесь на событие обновления кода (создайте его в KeypadController)
+        // Подписываемся на события панели
         if (keypadController != null)
+        {
             keypadController.OnCodeUpdated += UpdateDisplay;
+        }
+
+        // Начальное состояние
+        UpdateDisplay("");
     }
 
-    void OnDisable()
+    void OnDestroy()
     {
+        // Отписываемся при удалении
         if (keypadController != null)
+        {
             keypadController.OnCodeUpdated -= UpdateDisplay;
+        }
     }
 
     // Эта функция будет менять текст на панели
@@ -26,10 +35,11 @@ public class KeypadDisplay : MonoBehaviour
     {
         if (displayText == null) return;
 
-        // Если код пустой — показываем плейсхолдер
+        // Если код пустой — показывает плейсхолдер
         if (string.IsNullOrEmpty(currentCode))
         {
-            //displayText.text = placeholderText;
+            displayText.text = placeholderText;
+            return;
         }
         else
         {

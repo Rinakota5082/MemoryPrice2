@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using System; // Добавляем для работы с событием
+using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
-using System; // Добавляем для работы с событием
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class KeypadController : MonoBehaviour
 {
@@ -8,20 +9,36 @@ public class KeypadController : MonoBehaviour
     [SerializeField] private string correctCode = "12345"; // Код, который нужно угадать
     [SerializeField] private int maxDigits = 5; // Максимальная длина кода
 
+    [System.Serializable]
+    public class KeypadButton
+    {
+        public XRSimpleInteractable button; 
+        public string digit;                
+    }
+    [Header("Button References")]
+    [SerializeField] private KeypadButton[] buttons; // Список всех кнопок панели
+
+    [Header("Door to Unlock")]
+    [SerializeField] private DoorUnlock doorToUnlock;  // Ссылка на объект Door
+
+    [Header("Action Buttons")]
+    [SerializeField] private XRSimpleInteractable resetButton;   // Кнопка сброса
+    [SerializeField] private XRSimpleInteractable backspaceButton; // Кнопка удаления
+
     [Header("Feedback")]
     [SerializeField] private MeshRenderer displayRenderer; // Ссылка на дисплей (для подсветки)
     [SerializeField] private Material correctCodeMaterial; // Материал при правильном коде
-    [SerializeField] private Material wrongCodeMaterial;   // Материал при ошибке (опционально)
+    [SerializeField] private Material wrongCodeMaterial;   // Материал при ошибке 
 
     [Header("Actions")]
-    [SerializeField] private GameObject objectToActivate; // Что произойдет при успехе (дверь, свет и т.д.)
+    [SerializeField] private GameObject objectToActivate; // Что произойдет при успехе (дверь)
 
     [Header("Audio (Optional)")]
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip correctSound;
     [SerializeField] private AudioClip wrongSound;
 
-    // 👇 ЭТО СОБЫТИЕ ДЛЯ ОБНОВЛЕНИЯ ДИСПЛЕЯ
+    // СОБЫТИЕ ДЛЯ ОБНОВЛЕНИЯ ДИСПЛЕЯ
     public event Action<string> OnCodeUpdated; // Будет вызываться при каждом нажатии
 
     private string currentInput = "";
@@ -33,9 +50,31 @@ public class KeypadController : MonoBehaviour
         // Сохраняем стандартный материал дисплея, чтобы вернуть его при сбросе
         if (displayRenderer != null)
             defaultMaterial = displayRenderer.material;
+        SetupButtons();
     }
 
-    // 👇 Эту функцию вызываем для каждой цифры из инспектора
+    private void SetupButtons()
+    {
+        // Подписываем цифровые кнопки
+        foreach (KeypadButton btn in buttons)
+        {
+            if (btn.button == null) continue;
+
+            // Захватываем текущую цифру в локальную переменную, чтобы не было бага с замыканием
+            string digitToAdd = btn.digit;
+            btn.button.selectEntered.AddListener((args) => AddDigit(digitToAdd));
+        }
+
+        // Подписываем кнопку Reset
+        if (resetButton != null)
+            resetButton.selectEntered.AddListener((args) => ResetCode());
+
+        // Подписываем кнопку Backspace
+        if (backspaceButton != null)
+            backspaceButton.selectEntered.AddListener((args) => Backspace());
+    }
+
+    // функцию вызываем для каждой цифры из инспектора
     public void AddDigit(string digit)
     {
         if (isCodeCorrect) return; // Если код уже введен, игнорируем нажатия
@@ -43,20 +82,18 @@ public class KeypadController : MonoBehaviour
         if (currentInput.Length < maxDigits)
         {
             currentInput += digit;
-            Debug.Log($"Current code: {currentInput}");
-
-            // 👇 Оповещаем всех подписчиков (например, дисплей), что код обновился
+            Debug.Log($"Current code: {currentInput}");            
             OnCodeUpdated?.Invoke(currentInput);
         }
 
-        // Автоматическая проверка, если набрана нужная длина (опционально)
+        // если набрана нужная длина 
         if (currentInput.Length == maxDigits && !isCodeCorrect)
         {
             CheckCode();
         }
     }
 
-    // 👇 Функция для кнопки "Стереть последнюю цифру"
+    //  Функция для кнопки "Стереть последнюю цифру"
     public void Backspace()
     {
         if (isCodeCorrect) return;
@@ -68,7 +105,7 @@ public class KeypadController : MonoBehaviour
         }
     }
 
-    // 👇 Функция для кнопки "Сброс" (очистить все)
+    // Функция для кнопки "Сброс" (очистить все)
     public void ResetCode()
     {
         if (isCodeCorrect) return;
@@ -82,7 +119,7 @@ public class KeypadController : MonoBehaviour
             displayRenderer.material = defaultMaterial;
     }
 
-    // 👇 Функция для кнопки "Enter" (проверка кода)
+    // проверка кода
     public void CheckCode()
     {
         if (isCodeCorrect) return;
@@ -100,16 +137,8 @@ public class KeypadController : MonoBehaviour
             if (audioSource != null && correctSound != null)
                 audioSource.PlayOneShot(correctSound);
 
-            // Активируем целевой объект
-            if (objectToActivate != null)
-            {
-                objectToActivate.SetActive(true);//скорее всего не будем использовать
-
-
-                /*// Если это дверь, можно вызвать метод Unlock
-                var door = objectToActivate.GetComponent<Door>();
-                if (door != null) door.Unlock();*/
-            }
+            if (doorToUnlock != null)
+                doorToUnlock.Unlock();  // Вызываем разблокировку РУЧКИ
         }
         else
         {
@@ -132,6 +161,7 @@ public class KeypadController : MonoBehaviour
             OnCodeUpdated?.Invoke(currentInput);
         }
     }
+
 
     private void ResetDisplayColor()
     {
