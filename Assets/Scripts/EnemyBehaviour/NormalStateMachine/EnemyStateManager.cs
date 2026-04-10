@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class EnemyStateManager : MonoBehaviour
 {
+    [SerializeField] public Animator animator;
     [SerializeField] UnityEngine.AI.NavMeshAgent navMeshAgent;
     [SerializeField] Transform player;
     [SerializeField] public float walkSpeed;
@@ -51,5 +52,15 @@ public class EnemyStateManager : MonoBehaviour
         return (transform.position - target.transform.position).magnitude;
     }
 
-
+   /* void CheckConditions()
+    {
+        if (currentState == attackState)
+        {
+            if(DistanceToTarget() >= attackDistance)
+            {
+                SwitchState(agroState);
+                return;
+            }
+        }
+    }*/
 }
