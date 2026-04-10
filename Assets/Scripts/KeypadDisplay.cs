@@ -30,13 +30,13 @@ public class KeypadDisplay : MonoBehaviour
         }
     }
 
-    // Эта функция будет менять текст на панели
+    //изменение текста на панели
     private void UpdateDisplay(string currentCode)
     {
-        if (displayText == null) return;
+        if (displayText == null) return;        //если уже введен корректный код
 
-        // Если код пустой — показывает плейсхолдер
-        if (string.IsNullOrEmpty(currentCode))
+        
+        if (string.IsNullOrEmpty(currentCode))  //если код пустой
         {
             displayText.text = placeholderText;
             return;

@@ -13,7 +13,7 @@ public class DoorUnlock : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip unlockSound;
 
-    private bool isUnlocked = false;
+    private bool isUnlocked = false;                        //счетчик
 
     void Start()
     {
