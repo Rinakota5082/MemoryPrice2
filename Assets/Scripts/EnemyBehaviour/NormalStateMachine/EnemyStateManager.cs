@@ -52,7 +52,7 @@ public class EnemyStateManager : MonoBehaviour
         return (transform.position - target.transform.position).magnitude;
     }
 
-   /* void CheckConditions()
+    /*void CheckConditions()
     {
         if (currentState == attackState)
         {

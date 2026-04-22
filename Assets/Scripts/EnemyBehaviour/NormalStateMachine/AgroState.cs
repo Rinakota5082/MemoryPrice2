@@ -6,8 +6,8 @@ public class AgroState : BaseState
     {
         //Debug.Log("Entering Agro");
         manager.SetSpeed(manager.walkSpeed);
-        manager.animator.SetBool("IsAgro", true);
-        manager.animator.SetBool("IsAttacking", false);
+        manager.animator.SetBool("isAgro", true);
+        manager.animator.SetBool("isAttacking", false);
     }
 
     public override void ExitState(EnemyStateManager manager)
@@ -17,6 +17,7 @@ public class AgroState : BaseState
 
     public override void UpdateState(EnemyStateManager manager)
     {
+        Debug.Log(manager.DistanceToTarget()+"    2");
         if (manager.DistanceToTarget() >= manager.agroDistance)
         {
             manager.SwitchState(manager.idleState);
