@@ -8,6 +8,7 @@ public class AgroState : BaseState
         manager.SetSpeed(manager.walkSpeed);
         manager.animator.SetBool("isAgro", true);
         manager.animator.SetBool("isAttacking", false);
+        manager.PlayAgroSound();
     }
 
     public override void ExitState(EnemyStateManager manager)

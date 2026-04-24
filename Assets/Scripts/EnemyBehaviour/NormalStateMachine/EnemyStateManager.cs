@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class EnemyStateManager : MonoBehaviour
 {
@@ -8,7 +9,14 @@ public class EnemyStateManager : MonoBehaviour
     [SerializeField] public float walkSpeed;
     [SerializeField] public float agroDistance;
     [SerializeField] public float attackDistance;
+
+    [Header("Настройки звука")]
+    [SerializeField] private AudioSource audioSource;        
+    [SerializeField] private AudioClip agroSoundClip;
+    [SerializeField] private AudioClip footstepClip;
+
     Transform target;
+    private bool hasPlayedAgroSound = false;
 
     BaseState currentState;
     public IdleState idleState = new IdleState();
@@ -23,6 +31,10 @@ public class EnemyStateManager : MonoBehaviour
         }
         currentState = newState;
         currentState.EnterState(this);
+        if (newState != agroState)
+        {
+            hasPlayedAgroSound = false;
+        }
     }
 
     private void Start()
@@ -52,15 +64,28 @@ public class EnemyStateManager : MonoBehaviour
         return (transform.position - target.transform.position).magnitude;
     }
 
-    /*void CheckConditions()
+    public void PlayAgroSound()
     {
-        if (currentState == attackState)
+        if (!hasPlayedAgroSound && audioSource != null && agroSoundClip != null)
         {
-            if(DistanceToTarget() >= attackDistance)
-            {
-                SwitchState(agroState);
-                return;
-            }
+            audioSource.PlayOneShot(agroSoundClip);
+            hasPlayedAgroSound = true;
+            Debug.Log("[Enemy] Воспроизведение звука агрессии");
         }
-    }*/
+        else if (audioSource == null)
+        {
+            Debug.LogWarning("[Enemy] AudioSource не назначен — звук агрессии не воспроизведён");
+        }
+        else if (agroSoundClip == null)
+        {
+            Debug.LogWarning("[Enemy] AudioClip для агрессии не назначен");
+        }
+    }
+    public void PlayFootstepSound()
+    {
+        if (audioSource != null && footstepClip != null)
+        {
+            audioSource.PlayOneShot(footstepClip);
+        }
+    }
 }
