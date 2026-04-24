@@ -6,8 +6,15 @@ public class BookMagnet : MonoBehaviour
     [Header("Настройки")]
     public float snapDistance = 0.15f;
     public float snapSpeed = 10f;
+    public string slotTag = "BookSlot";
     public Transform targetSlot;
+    /* [Header("Смещение")]
+     [Tooltip("Настройки")]
+     public float yOffset = -0.02f;
 
+
+     private Vector3 snapTargetPosition;
+     private Quaternion snapTargetRotation;*/
     private bool isSnapping = false;
     private bool isPlaced = false;
     private Rigidbody rb;
@@ -55,6 +62,9 @@ public class BookMagnet : MonoBehaviour
     void StartSnap()
     {
         isSnapping = true;
+       /* snapTargetPosition = targetSlot.position;
+        snapTargetPosition.y += yOffset;
+        snapTargetRotation = targetSlot.rotation;*/
         if (rb != null) rb.isKinematic = true;
         if (bookCollider != null) bookCollider.enabled = false;
         if (grabbable != null) grabbable.enabled = false;
@@ -67,15 +77,13 @@ public class BookMagnet : MonoBehaviour
 
         isSnapping = false;
         isPlaced = true;
+        transform.SetParent(targetSlot);
 
         FindObjectOfType<PuzzleManager>()?.CheckAllBooksPlaced();
     }
-
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("BookSlot") && targetSlot == null)
-        {
-            targetSlot = other.transform;
-        }
+        if (other.CompareTag("BookSlot") && targetSlot != null) { targetSlot = other.transform; }
     }
+
 }
