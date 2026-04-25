@@ -12,6 +12,14 @@ TagManager:
   - BookSlot3
   - BookSlot4
   - BookSlot5
+  - PlSlot
+  - Pl_KISH
+  - Pl_CHEIZY
+  - Pl_ID
+  - Pl_Right
+  - Pl_RADIHEAD
+  - Pl_100
+  - Pl_CORN
   layers:
   - Default
   - TransparentFX

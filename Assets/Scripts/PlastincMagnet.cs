@@ -1,26 +1,36 @@
 ﻿using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class BookMagnet3 : MonoBehaviour
+public class PlastincMagnet : MonoBehaviour
 {
     [Header("Настройки")]
     public float snapDistance = 0.15f;
     public float snapSpeed = 10f;
-    public string slotTag = "BookSlot3";
+    public string slotTag = "PlSlot";
     public Transform targetSlot;
+    [Header("Звуки")]
+    public AudioClip snapSound;
+
     private bool isSnapping = false;
     private bool isPlaced = false;
     private Rigidbody rb;
     private UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable grabbable;
     private Collider bookCollider;
+    private Transform originalParent;
+    private AudioSource audioSource;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         grabbable = GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>();
         bookCollider = GetComponent<Collider>();
-
-        // ← Автоматическая привязка события (не нужно в Inspector!)
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null && snapSound != null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.playOnAwake = false;
+        }
         if (grabbable != null)
         {
             grabbable.selectExited.AddListener(OnSelectExited);
@@ -40,8 +50,6 @@ public class BookMagnet3 : MonoBehaviour
             }
         }
     }
-
-    // ← public обязательно!
     public void OnSelectExited(SelectExitEventArgs args)
     {
         if (isPlaced) return;
@@ -68,12 +76,46 @@ public class BookMagnet3 : MonoBehaviour
         isSnapping = false;
         isPlaced = true;
         transform.SetParent(targetSlot);
-
+        if (grabbable != null)
+        {
+            grabbable.enabled = true;
+            rb.isKinematic = false;
+        }
+        if (bookCollider != null) bookCollider.enabled = true;
+        PlaySnapSound();
         FindObjectOfType<PuzzleManager>()?.CheckAllBooksPlaced();
+    }
+    void PlaySnapSound()
+    {
+        if (snapSound != null)
+        {
+            if(audioSource != null) audioSource.PlayOneShot(snapSound,1f);
+        }
+        //надо доделать варианты песен в зависимости от пластинки
+    }
+    public void RemoveFromSlot()
+    {
+        if (!isPlaced) return;
+
+        isPlaced = false;
+        transform.SetParent(originalParent);
+        if (rb != null){rb.isKinematic = false;}
+        if (grabbable != null){ grabbable.enabled = true;}
+        if (bookCollider != null){bookCollider.enabled = true; }
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("BookSlot3") && targetSlot != null) { targetSlot = other.transform; }
+        if (other.CompareTag("PlSlot") && targetSlot != null) { targetSlot = other.transform; }
     }
-
+    /*private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag(slotTag) && targetSlot == other.transform)
+        {
+            // Не сбрасываем targetSlot сразу, чтобы не прерывать начатое притягивание
+            if (!isSnapping)
+            {
+                targetSlot = null;
+            }
+        }
+    }*/
 }

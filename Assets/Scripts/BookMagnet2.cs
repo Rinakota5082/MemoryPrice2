@@ -73,7 +73,7 @@ public class BookMagnet2 : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("BookSlot") && targetSlot != null) { targetSlot = other.transform; }
+        if (other.CompareTag("BookSlot2") && targetSlot != null) { targetSlot = other.transform; }
     }
 
 }
