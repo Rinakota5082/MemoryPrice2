@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class BookMagnet : MonoBehaviour
+public class BookMagnet2 : MonoBehaviour
 {
     [Header("Настройки")]
     public float snapDistance = 0.15f;
     public float snapSpeed = 10f;
-    public string slotTag = "BookSlot1";
+    public string slotTag = "BookSlot2";
     public Transform targetSlot;
     private bool isSnapping = false;
     private bool isPlaced = false;

@@ -5,6 +5,13 @@ TagManager:
   serializedVersion: 3
   tags:
   - Book
+  - BookSlot
+  - Book1
+  - BookSlot1
+  - BookSlot2
+  - BookSlot3
+  - BookSlot4
+  - BookSlot5
   layers:
   - Default
   - TransparentFX
