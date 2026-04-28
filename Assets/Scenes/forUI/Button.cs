@@ -15,8 +15,15 @@ public class Button : MonoBehaviour
         
     }
 
-    void ChangeScene()
+    public void ChangeScene( string sceneName)
     {
-        SceneManager.LoadScene("Assets/Scenes/SampleScene.unity");
+        if (!string.IsNullOrEmpty(sceneName))
+        {
+            SceneManager.LoadScene(sceneName);
+        }
+        else
+        {
+            Debug.LogWarning("Не найдено");
+        }
     }
 }
