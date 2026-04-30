@@ -4,6 +4,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class BookMagnet : MonoBehaviour
 {
     [Header("Настройки")]
+    [SerializeField] private Door doorToUnlock;  // Ссылка на объект Door
     public float snapDistance = 0.15f;
     public float snapSpeed = 10f;
     public string slotTag = "BookSlot1";
@@ -39,6 +40,7 @@ public class BookMagnet : MonoBehaviour
                 FinishPlacement();
             }
         }
+        
     }
 
     // ← public обязательно!
@@ -47,9 +49,7 @@ public class BookMagnet : MonoBehaviour
         if (isPlaced) return;
 
         if (targetSlot != null && Vector3.Distance(transform.position, targetSlot.position) <= snapDistance)
-        {
-            StartSnap();
-        }
+        {StartSnap();}
     }
 
     void StartSnap()
@@ -68,6 +68,9 @@ public class BookMagnet : MonoBehaviour
         isSnapping = false;
         isPlaced = true;
         transform.SetParent(targetSlot);
+
+        if (doorToUnlock != null)
+            doorToUnlock.Point1 = true;
 
         FindObjectOfType<PuzzleManager>()?.CheckAllBooksPlaced();
     }

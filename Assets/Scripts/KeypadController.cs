@@ -127,7 +127,6 @@ public class KeypadController : MonoBehaviour
         if (currentInput == correctCode)
         {
             isCodeCorrect = true;
-            Debug.Log("CODE CORRECT!");
 
             // Визуальный фидбек
             if (displayRenderer != null)
@@ -168,7 +167,5 @@ public class KeypadController : MonoBehaviour
         if (displayRenderer != null && !isCodeCorrect)
             displayRenderer.material = defaultMaterial;
     }
-
-    // Дополнительно: метод для получения текущего состояния (можно использовать для сохранения)
     public bool IsCodeCorrect() => isCodeCorrect;
 }
