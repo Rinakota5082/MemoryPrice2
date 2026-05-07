@@ -54,6 +54,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
+        Debug.Log("Resume() вызван - игра продолжается");
         isPaused = false;
         pauseMenuPanel.SetActive(false);
         Time.timeScale = 1f;
