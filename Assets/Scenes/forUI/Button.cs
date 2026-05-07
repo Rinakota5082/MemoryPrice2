@@ -4,7 +4,8 @@ using UnityEngine.UI;
 using TMPro;
 public class Button : MonoBehaviour
 {
-    
+    internal bool interactable;
+
     void Start()
     {
         
