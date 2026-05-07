@@ -6,7 +6,7 @@ using System.Collections;
 public class MainMenu : MonoBehaviour
 {
     public UnityEngine.UI.Button continueButton;
-    public string gameSceneName = "SampleScene"; // название вашей игровой сцены
+    public string gameSceneName = "SampleScene";
     public GameObject loadingScreen;
 
     void Start()
@@ -23,13 +23,35 @@ public class MainMenu : MonoBehaviour
 
         Debug.Log("[MENU] Кнопка Continue активна: " + hasSave);
 
-        continueButton.onClick.AddListener(OnContinueClicked);
+        // НЕ ДОБАВЛЯЕМ ЧЕРЕЗ КОД, чтобы не дублировать вызов
+        // continueButton.onClick.AddListener(OnContinueClicked);
     }
 
+    // ЭТОТ МЕТОД БУДЕТ ВИДЕН В OnClick
     public void OnContinueClicked()
     {
         Debug.Log("[MENU] Нажата кнопка Continue");
         StartCoroutine(LoadGameSceneAndRestorePosition());
+    }
+
+    // ЭТОТ МЕТОД БУДЕТ ВИДЕН В OnClick
+    public void OnNewGame()
+    {
+        Debug.Log("[MENU] Новая игра");
+        if (SimpleSaveManager.Instance != null)
+            SimpleSaveManager.Instance.DeleteSave();
+        SceneManager.LoadScene(gameSceneName);
+    }
+
+    // ЭТОТ МЕТОД БУДЕТ ВИДЕН В OnClick
+    public void OnExit()
+    {
+        Debug.Log("[MENU] Выход из игры");
+        Application.Quit();
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 
     private IEnumerator LoadGameSceneAndRestorePosition()
@@ -39,7 +61,6 @@ public class MainMenu : MonoBehaviour
         if (loadingScreen != null)
             loadingScreen.SetActive(true);
 
-        // Загружаем игровую сцену
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(gameSceneName);
         asyncLoad.allowSceneActivation = true;
 
@@ -50,18 +71,15 @@ public class MainMenu : MonoBehaviour
 
         Debug.Log("[MENU] Сцена загружена, ждём инициализации...");
 
-        // Ждём 2 кадра, чтобы все скрипты инициализировались
         yield return null;
         yield return null;
 
-        // Находим игрока
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 
         if (player != null)
         {
             Debug.Log("[MENU] Игрок найден: " + player.name);
 
-            // Пробуем найти скрипт сохранения на игроке
             PlayerPositionSaver saver = player.GetComponent<PlayerPositionSaver>();
             if (saver != null)
             {
@@ -70,7 +88,6 @@ public class MainMenu : MonoBehaviour
             }
             else
             {
-                // Если скрипта нет, загружаем позицию напрямую
                 Vector3 savedPos = SimpleSaveManager.Instance.GetSavedPosition();
                 player.transform.position = savedPos;
                 Debug.Log("[MENU] Позиция загружена напрямую: " + savedPos);
@@ -85,23 +102,5 @@ public class MainMenu : MonoBehaviour
             loadingScreen.SetActive(false);
 
         Debug.Log("[MENU] Загрузка завершена");
-    }
-
-    public void OnNewGame()
-    {
-        Debug.Log("[MENU] Новая игра");
-        if (SimpleSaveManager.Instance != null)
-            SimpleSaveManager.Instance.DeleteSave();
-        SceneManager.LoadScene(gameSceneName);
-    }
-
-    public void OnExit()
-    {
-        Debug.Log("[MENU] Выход из игры");
-        Application.Quit();
-
-        #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-        #endif
     }
 }
