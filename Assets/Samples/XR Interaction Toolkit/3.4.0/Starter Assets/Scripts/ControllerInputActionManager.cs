@@ -134,6 +134,7 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
         bool m_PostponedDeactivateTeleport;
         bool m_PostponedNearRegionLocomotion;
         bool m_HoveringScrollableUI;
+        bool m_SuppressingLocomotionDueToAttachManipulation;
 
         readonly HashSet<InputAction> m_LocomotionUsers = new HashSet<InputAction>();
         readonly BindingsGroup m_BindingsGroup = new BindingsGroup();
@@ -250,6 +251,7 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
         void OnStartTeleport(InputAction.CallbackContext context)
         {
             m_PostponedDeactivateTeleport = false;
+            m_SuppressingLocomotionDueToAttachManipulation = false;
 
             if (m_TeleportInteractor != null)
                 m_TeleportInteractor.gameObject.SetActive(true);
@@ -261,6 +263,11 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
                 m_NearFarInteractor.gameObject.SetActive(false);
 
             m_RayInteractorChanged?.Invoke(m_TeleportInteractor);
+
+            // Ensure locomotion actions are in a consistent state even if a selection state change event
+            // (e.g., selectExited) was skipped due to deactivating interactors while selecting.
+            UpdateLocomotionActions();
+            UpdateUIActions();
         }
 
         void OnCancelTeleport(InputAction.CallbackContext context)
@@ -278,6 +285,11 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
                 m_NearFarInteractor.gameObject.SetActive(true);
 
             m_RayInteractorChanged?.Invoke(m_RayInteractor);
+
+            // Same rationale as in OnStartTeleport: switching active interactors can skip select exit callbacks.
+            m_SuppressingLocomotionDueToAttachManipulation = false;
+            UpdateLocomotionActions();
+            UpdateUIActions();
         }
 
         void OnStartLocomotion(InputAction.CallbackContext context)
@@ -318,7 +330,13 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
             if (selectionRegion == NearFarInteractor.Region.Far)
             {
                 if (manipulateAttachTransform)
-                    DisableAllLocomotionActions();
+                {
+                    // In this project we intentionally allow continuous movement while in Far region,
+                    // even when the Near-Far interactor uses manipulation input, so movement doesn't "die"
+                    // when the user starts controlling objects with one controller.
+                    // Keep teleport disabled to reduce accidental teleports while manipulating.
+                    DisableTeleportActions();
+                }
                 else
                     DisableTeleportActions();
             }
@@ -331,7 +349,8 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
                 if (hasStickInput)
                 {
                     m_PostponedNearRegionLocomotion = true;
-                    DisableAllLocomotionActions();
+                    // Same rationale: keep movement alive; only disable teleport while stick is engaged.
+                    DisableTeleportActions();
                 }
                 else
                 {
@@ -347,6 +366,7 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
             if (m_RayInteractor.manipulateAttachTransform)
             {
                 // Disable locomotion and turn actions
+                m_SuppressingLocomotionDueToAttachManipulation = true;
                 DisableAllLocomotionActions();
             }
         }
@@ -356,6 +376,7 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
             if (m_RayInteractor.manipulateAttachTransform)
             {
                 // Re-enable the locomotion and turn actions
+                m_SuppressingLocomotionDueToAttachManipulation = false;
                 UpdateLocomotionActions();
             }
         }
@@ -397,6 +418,7 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
             // See comments in Start for why we wait until Start to enable/disable actions.
             if (m_StartCalled)
             {
+                m_SuppressingLocomotionDueToAttachManipulation = false;
                 UpdateLocomotionActions();
                 UpdateUIActions();
             }
@@ -407,6 +429,14 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
         protected void OnDisable()
         {
             TeardownInteractorEvents();
+
+            // If the component (or controller) gets disabled while selecting, selection exit callbacks may never fire.
+            // Clear suppression so locomotion doesn't stay permanently disabled.
+            m_SuppressingLocomotionDueToAttachManipulation = false;
+            m_LocomotionUsers.Clear();
+            m_HoveringScrollableUI = false;
+            UpdateLocomotionActions();
+            UpdateUIActions();
         }
 
         protected void Start()
@@ -457,6 +487,14 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
 
         void UpdateLocomotionActions()
         {
+            // If locomotion is intentionally suppressed (e.g. attach transform manipulation),
+            // keep everything disabled until suppression is cleared.
+            if (m_SuppressingLocomotionDueToAttachManipulation)
+            {
+                DisableAllLocomotionActions();
+                return;
+            }
+
             // Disable/enable Teleport and Turn when Move is enabled/disabled.
             SetEnabled(m_Move, m_SmoothMotionEnabled);
             SetEnabled(m_TeleportMode, !m_SmoothMotionEnabled);

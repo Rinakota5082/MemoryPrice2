@@ -38,9 +38,8 @@ public class MainMenu : MonoBehaviour
     public void OnNewGame()
     {
         Debug.Log("[MENU] Íîâàÿ èãğà");
-        if (SimpleSaveManager.Instance != null)
-            SimpleSaveManager.Instance.DeleteSave();
-        SceneManager.LoadScene(gameSceneName);
+        if (SimpleSaveManager.Instance == null)
+            SceneManager.LoadScene(gameSceneName);
     }
 
     // İÒÎÒ ÌÅÒÎÄ ÁÓÄÅÒ ÂÈÄÅÍ Â OnClick

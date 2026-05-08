@@ -1,61 +1,94 @@
+using System.IO;
 using UnityEngine;
+
+[System.Serializable]
+public class SaveData
+{
+    public float playerPosX;
+    public float playerPosY;
+    public float playerPosZ;
+}
 
 public class SimpleSaveManager : MonoBehaviour
 {
-    private static SimpleSaveManager instance;
-    public static SimpleSaveManager Instance { get { return instance; } }
+    public static SimpleSaveManager Instance { get; private set; }
 
-    void Awake()
+    private string saveFilePath;
+    private SaveData currentSave;
+
+    private void Awake()
     {
-        if (instance == null)
+        if (Instance != null && Instance != this)
         {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        saveFilePath = Path.Combine(Application.persistentDataPath, "player_position_save.json");
+
+        // Попробуем загрузить сохранённые данные
+        Load();
+    }
+
+    // Проверяем, есть ли вообще сохранение
+    public bool HasSave()
+    {
+        bool has = File.Exists(saveFilePath);
+        Debug.Log("SimpleSaveManager.HasSave: " + has);
+        return has;
+    }
+
+    // Сохраняем позицию
+    public void SaveGame(Vector3 position)
+    {
+        if (currentSave == null)
+            currentSave = new SaveData();
+
+        currentSave.playerPosX = position.x;
+        currentSave.playerPosY = position.y;
+        currentSave.playerPosZ = position.z;
+
+        string json = JsonUtility.ToJson(currentSave, true);
+        File.WriteAllText(saveFilePath, json);
+
+        Debug.Log("SimpleSaveManager: Saved position to file: " + position + " (path: " + saveFilePath + ")");
+    }
+
+    // Возвращаем сохранённую позицию
+    public Vector3 GetSavedPosition()
+    {
+        if (!HasSave())
+            return Vector3.zero;
+
+        string json = File.ReadAllText(saveFilePath);
+        currentSave = JsonUtility.FromJson<SaveData>(json);
+
+        Vector3 pos = new Vector3(
+            currentSave.playerPosX,
+            currentSave.playerPosY,
+            currentSave.playerPosZ
+        );
+
+        Debug.Log("SimpleSaveManager: Loaded position from file: " + pos);
+        return pos;
+    }
+
+    // Загрузить при старте (если нужно)
+    private void Load()
+    {
+        if (!HasSave())
+        {
+            currentSave = new SaveData();
+            Debug.Log("SimpleSaveManager: No save file, created new empty SaveData.");
         }
         else
         {
-            Destroy(gameObject);
+            string json = File.ReadAllText(saveFilePath);
+            currentSave = JsonUtility.FromJson<SaveData>(json);
+            Debug.Log("SimpleSaveManager: Loaded initial save data.");
         }
-    }
-
-    public void SaveGame(Vector3 playerPosition)
-    {
-        PlayerPrefs.SetFloat("PlayerPosX", playerPosition.x);
-        PlayerPrefs.SetFloat("PlayerPosY", playerPosition.y);
-        PlayerPrefs.SetFloat("PlayerPosZ", playerPosition.z);
-        PlayerPrefs.SetInt("HasSave", 1);
-        PlayerPrefs.Save();
-
-        Debug.Log("[SAVE] Сохранена позиция: " + playerPosition);
-    }
-
-    public Vector3 GetSavedPosition()
-    {
-        if (HasSave())
-        {
-            float x = PlayerPrefs.GetFloat("PlayerPosX", 0);
-            float y = PlayerPrefs.GetFloat("PlayerPosY", 0);
-            float z = PlayerPrefs.GetFloat("PlayerPosZ", 0);
-            Vector3 pos = new Vector3(x, y, z);
-            Debug.Log("[LOAD] Загружена позиция: " + pos);
-            return pos;
-        }
-        Debug.Log("[LOAD] Сохранение не найдено");
-        return Vector3.zero;
-    }
-
-    public bool HasSave()
-    {
-        return PlayerPrefs.GetInt("HasSave", 0) == 1;
-    }
-
-    public void DeleteSave()
-    {
-        PlayerPrefs.DeleteKey("PlayerPosX");
-        PlayerPrefs.DeleteKey("PlayerPosY");
-        PlayerPrefs.DeleteKey("PlayerPosZ");
-        PlayerPrefs.DeleteKey("HasSave");
-        PlayerPrefs.Save();
-        Debug.Log("[SAVE] Сохранение удалено");
     }
 }

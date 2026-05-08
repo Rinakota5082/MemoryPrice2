@@ -1,63 +1,94 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.InputSystem;
 
 public class PauseMenu : MonoBehaviour
 {
-    public GameObject pauseMenuPanel;
-    public string menuSceneName = "MainMenuScene";
+    [Header("UI")]
+    [SerializeField] private GameObject pauseMenuPanel;
+    [SerializeField] private string menuSceneName = "MainMenuScene";
 
-    private bool isPaused = false;
+    [Header("Behavior")]
+    [Tooltip("Для VR обычно лучше false, чтобы локомоция не ломалась.")]
+    [SerializeField] private bool freezeTimeOnPause = false;
+
+    private bool isPaused;
     private GameControls inputActions;
 
-    void Awake()
+    private void Awake()
     {
         inputActions = new GameControls();
-        inputActions.UI.Pause.performed += ctx => TogglePause();
+        inputActions.UI.Pause.performed += OnPausePerformed;
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
-        inputActions.Enable();
+        inputActions?.Enable();
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
-        inputActions.Disable();
+        // Если объект выключили во время паузы, гарантированно возвращаем игру.
+        if (isPaused)
+            Resume();
+
+        inputActions?.Disable();
     }
 
-    void Start()
+    private void OnDestroy()
     {
+        if (inputActions != null)
+            inputActions.UI.Pause.performed -= OnPausePerformed;
+    }
+
+    private void Start()
+    {
+        isPaused = false;
+
         if (pauseMenuPanel != null)
             pauseMenuPanel.SetActive(false);
 
+        // Для VR курсор обычно не нужен, но оставим поведение как у тебя.
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        // На всякий случай, если сцена ранее осталась в паузе.
+        Time.timeScale = 1f;
+    }
+
+    private void OnPausePerformed(UnityEngine.InputSystem.InputAction.CallbackContext _)
+    {
+        TogglePause();
     }
 
     public void TogglePause()
     {
-        if (isPaused)
-            Resume();
-        else
-            Pause();
+        if (isPaused) Resume();
+        else Pause();
     }
 
     public void Pause()
     {
         isPaused = true;
-        pauseMenuPanel.SetActive(true);
-        Time.timeScale = 0f;
+
+        if (pauseMenuPanel != null)
+            pauseMenuPanel.SetActive(true);
+
+        if (freezeTimeOnPause)
+            Time.timeScale = 0f;
+
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 
     public void Resume()
     {
-        Debug.Log("Resume() вызван - игра продолжается");
         isPaused = false;
-        pauseMenuPanel.SetActive(false);
+
+        if (pauseMenuPanel != null)
+            pauseMenuPanel.SetActive(false);
+
         Time.timeScale = 1f;
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -67,13 +98,13 @@ public class PauseMenu : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
-            // Сохраняем позицию (если есть система сохранения)
-            PlayerPrefs.SetFloat("PlayerPosX", player.transform.position.x);
-            PlayerPrefs.SetFloat("PlayerPosY", player.transform.position.y);
-            PlayerPrefs.SetFloat("PlayerPosZ", player.transform.position.z);
+            Vector3 pos = player.transform.position;
+            PlayerPrefs.SetFloat("PlayerPosX", pos.x);
+            PlayerPrefs.SetFloat("PlayerPosY", pos.y);
+            PlayerPrefs.SetFloat("PlayerPosZ", pos.z);
             PlayerPrefs.SetInt("HasSave", 1);
             PlayerPrefs.Save();
-            Debug.Log("Сохранено перед выходом: " + player.transform.position);
+            Debug.Log("Сохранено перед выходом: " + pos);
         }
 
         Time.timeScale = 1f;

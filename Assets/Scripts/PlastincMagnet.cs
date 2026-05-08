@@ -11,6 +11,7 @@ public class PlastincMagnet : MonoBehaviour
     public Transform targetSlot;
     [Header("Звуки")]
     public AudioClip snapSound;
+    public AudioSource audioSource;
 
     private bool isSnapping = false;
     private bool isPlaced = false;
@@ -18,7 +19,7 @@ public class PlastincMagnet : MonoBehaviour
     private UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable grabbable;
     private Collider bookCollider;
     private Transform originalParent;
-    private AudioSource audioSource;
+    
 
     void Start()
     {
@@ -91,7 +92,7 @@ public class PlastincMagnet : MonoBehaviour
         {
             if(audioSource != null) audioSource.PlayOneShot(snapSound,1f);
         }
-        //надо доделать варианты песен в зависимости от пластинки
+        
     }
     public void RemoveFromSlot()
     {

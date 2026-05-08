@@ -3,6 +3,7 @@
 public class PlayerPositionSaver : MonoBehaviour
 {
     [Header("Settings")]
+    [Min(0.1f)]
     public float saveInterval = 5f;
 
     [Header("VR Setup")]
@@ -11,50 +12,61 @@ public class PlayerPositionSaver : MonoBehaviour
 
     private float saveTimer = 0f;
 
-    void Start()
+    private void Start()
     {
         if (objectToSave == null)
-        {
             objectToSave = transform;
-        }
+
+        Debug.Log("[PlayerPositionSaver] Start: objectToSave = " + objectToSave.name);
     }
 
-    void Update()
+    private void Update()
     {
+        if (objectToSave == null || SimpleSaveManager.Instance == null)
+            return;
+
         saveTimer += Time.deltaTime;
         if (saveTimer >= saveInterval)
         {
             saveTimer = 0f;
-
-            if (SimpleSaveManager.Instance != null)
-            {
-                SimpleSaveManager.Instance.SaveGame(objectToSave.position);
-            }
+            SaveCurrentPosition();
         }
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
-        if (SimpleSaveManager.Instance != null)
-        {
-            SimpleSaveManager.Instance.SaveGame(objectToSave.position);
-        }
+        SaveCurrentPosition();
     }
 
-    void OnApplicationQuit()
+    private void OnApplicationQuit()
     {
-        if (SimpleSaveManager.Instance != null)
-        {
-            SimpleSaveManager.Instance.SaveGame(objectToSave.position);
-        }
+        SaveCurrentPosition();
+    }
+
+    private void SaveCurrentPosition()
+    {
+        if (objectToSave == null || SimpleSaveManager.Instance == null)
+            return;
+
+        Vector3 pos = objectToSave.position;
+        Debug.Log("PlayerPositionSaver: Saved position = " + pos);
+        SimpleSaveManager.Instance.SaveGame(pos);
     }
 
     public void LoadPosition()
     {
-        if (SimpleSaveManager.Instance != null && SimpleSaveManager.Instance.HasSave())
+        if (objectToSave == null || SimpleSaveManager.Instance == null)
+            return;
+
+        if (SimpleSaveManager.Instance.HasSave())
         {
             Vector3 savedPos = SimpleSaveManager.Instance.GetSavedPosition();
+            Debug.Log("PlayerPositionSaver: Loaded position = " + savedPos);
             objectToSave.position = savedPos;
+        }
+        else
+        {
+            Debug.Log("PlayerPositionSaver: No save found, position not loaded.");
         }
     }
 }
