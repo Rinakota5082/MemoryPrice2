@@ -19,7 +19,7 @@ public class PlastincMagnet : MonoBehaviour
     private UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable grabbable;
     private Collider bookCollider;
     private Transform originalParent;
-    
+    private bool isBeingHeld = false;
 
     void Start()
     {
@@ -34,12 +34,24 @@ public class PlastincMagnet : MonoBehaviour
         }
         if (grabbable != null)
         {
+            grabbable.selectEntered.AddListener(_=>isBeingHeld=true);
             grabbable.selectExited.AddListener(OnSelectExited);
         }
     }
 
     void Update()
     {
+        if (!isPlaced && !isBeingHeld && targetSlot != null)
+        {
+            float diatanceToSlot = Vector3.Distance(transform.position, targetSlot.position);
+            if(diatanceToSlot <= snapDistance&& !isSnapping)
+            {
+                StartSnap();
+            }
+        }
+        {
+            
+        }
         if (isSnapping && targetSlot != null)
         {
             transform.position = Vector3.Lerp(transform.position, targetSlot.position, Time.deltaTime * snapSpeed);
@@ -64,7 +76,7 @@ public class PlastincMagnet : MonoBehaviour
     void StartSnap()
     {
         isSnapping = true;
-        if (rb != null) rb.isKinematic = true;
+        if (rb != null) { rb.isKinematic = true;    rb.linearVelocity = Vector3.zero;  rb.useGravity = false; }
         if (bookCollider != null) bookCollider.enabled = false;
         if (grabbable != null) grabbable.enabled = false;
     }
@@ -81,6 +93,9 @@ public class PlastincMagnet : MonoBehaviour
         {
             grabbable.enabled = true;
             rb.isKinematic = false;
+            rb.useGravity = false;
+            rb.angularVelocity= Vector3.zero;
+            rb.constraints = RigidbodyConstraints.FreezeAll;
         }
         if (bookCollider != null) bookCollider.enabled = true;
         PlaySnapSound();
@@ -90,7 +105,8 @@ public class PlastincMagnet : MonoBehaviour
     {
         if (snapSound != null)
         {
-            if(audioSource != null) audioSource.PlayOneShot(snapSound,1f);
+            if(audioSource != null) audioSource.PlayOneShot(snapSound,0.5f);
+            Debug.Log("Playing");
         }
         
     }
@@ -100,7 +116,7 @@ public class PlastincMagnet : MonoBehaviour
 
         isPlaced = false;
         transform.SetParent(originalParent);
-        if (rb != null){rb.isKinematic = false;}
+        if (rb != null){rb.isKinematic = false; rb.useGravity = true; }
         if (grabbable != null){ grabbable.enabled = true;}
         if (bookCollider != null){bookCollider.enabled = true; }
     }
@@ -108,7 +124,7 @@ public class PlastincMagnet : MonoBehaviour
     {
         if (other.CompareTag("PlSlot") && targetSlot != null) { targetSlot = other.transform; }
     }
-    /*private void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag(slotTag) && targetSlot == other.transform)
         {
@@ -118,5 +134,5 @@ public class PlastincMagnet : MonoBehaviour
                 targetSlot = null;
             }
         }
-    }*/
+    }
 }
