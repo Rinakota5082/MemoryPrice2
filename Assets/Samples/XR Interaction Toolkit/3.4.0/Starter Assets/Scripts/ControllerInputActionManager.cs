@@ -500,9 +500,10 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
             SetEnabled(m_TeleportMode, !m_SmoothMotionEnabled);
             SetEnabled(m_TeleportModeCancel, !m_SmoothMotionEnabled);
 
-            // Disable ability to turn when using continuous movement
-            SetEnabled(m_Turn, !m_SmoothMotionEnabled && m_SmoothTurnEnabled);
-            SetEnabled(m_SnapTurn, !m_SmoothMotionEnabled && !m_SmoothTurnEnabled);
+            // Keep turn available while walking: left stick = move, right stick = turn.
+            // (Strafe is disabled on DynamicMoveProvider in this project.)
+            SetEnabled(m_Turn, m_SmoothTurnEnabled);
+            SetEnabled(m_SnapTurn, !m_SmoothTurnEnabled);
         }
 
         void DisableTeleportActions()

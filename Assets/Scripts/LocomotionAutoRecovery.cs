@@ -42,11 +42,17 @@ public static class LocomotionAutoRecovery
             if (!move.enabled)
                 move.enabled = true;
 
+            // Right stick should rotate, not strafe sideways.
+            move.enableStrafe = false;
+
             EnableActionIfPresent(move.leftHandMoveInput?.inputActionReference);
             EnableActionIfPresent(move.rightHandMoveInput?.inputActionReference);
         }
 
-        // Controller mediation can disable actions globally; ensure Move remains enabled.
+        // Turn providers live under Locomotion/Turn.
+        EnsureTurnLocomotionActive();
+
+        // Controller mediation can disable actions globally; ensure locomotion actions stay enabled.
         var managers = FindAllSceneObjects<ControllerInputActionManager>();
         if (managers != null && managers.Length != 0)
         {
@@ -54,10 +60,61 @@ public static class LocomotionAutoRecovery
             {
                 if (m != null && m.isActiveAndEnabled)
                 {
-                    // "Smooth motion" uses Move action.
                     EnableActionIfPresent(GetPrivateActionReference(m, "m_Move"));
+                    EnableActionIfPresent(GetPrivateActionReference(m, "m_Turn"));
+                    EnableActionIfPresent(GetPrivateActionReference(m, "m_SnapTurn"));
                 }
             }
+        }
+    }
+
+    static void EnsureTurnLocomotionActive()
+    {
+        var turnRoot = GameObject.Find("Turn");
+        if (turnRoot != null && turnRoot.scene.IsValid() && !turnRoot.activeSelf)
+            turnRoot.SetActive(true);
+
+        // Enable whichever turn provider matches the right-controller setting.
+        var managers = FindAllSceneObjects<ControllerInputActionManager>();
+        var useContinuousTurn = false;
+        if (managers != null)
+        {
+            foreach (var m in managers)
+            {
+                if (m == null || !m.isActiveAndEnabled)
+                    continue;
+
+                if (m.smoothTurnEnabled)
+                {
+                    useContinuousTurn = true;
+                    break;
+                }
+            }
+        }
+
+        SetBehaviourEnabledByTypeName("ContinuousTurnProvider", useContinuousTurn);
+        SetBehaviourEnabledByTypeName("SnapTurnProvider", !useContinuousTurn);
+    }
+
+    static void SetBehaviourEnabledByTypeName(string typeName, bool enabled)
+    {
+        var all = Resources.FindObjectsOfTypeAll<Behaviour>();
+        if (all == null)
+            return;
+
+        foreach (var b in all)
+        {
+            if (b == null)
+                continue;
+
+            if (b.GetType().Name != typeName)
+                continue;
+
+            if (!b.gameObject.scene.IsValid())
+                continue;
+
+            if (b.enabled != enabled)
+                b.enabled = enabled;
         }
     }
 
