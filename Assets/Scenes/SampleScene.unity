@@ -4671,7 +4671,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9841,7 +9841,9 @@ MonoBehaviour:
   slotTag: PlSlot
   targetSlot: {fileID: 1002545434}
   snapSound: {fileID: 8300000, guid: 98c42559d38fabc43b80dcb38d16a99c, type: 3}
+  snapSoundVolume: 0.7
   audioSource: {fileID: 0}
+  playMelodyOnTriggerEnter: 1
 --- !u!1 &358360268
 GameObject:
   m_ObjectHideFlags: 0
@@ -10732,7 +10734,9 @@ MonoBehaviour:
   slotTag: PlSlot
   targetSlot: {fileID: 1002545434}
   snapSound: {fileID: 8300000, guid: dd15bd3c04fde9749b01f706dad0d8c5, type: 3}
+  snapSoundVolume: 0.7
   audioSource: {fileID: 0}
+  playMelodyOnTriggerEnter: 1
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -26274,7 +26278,9 @@ MonoBehaviour:
   slotTag: PlSlot
   targetSlot: {fileID: 1002545434}
   snapSound: {fileID: 8300000, guid: 7bc5196c3cadd4f4ba180087f3985c0d, type: 3}
+  snapSoundVolume: 0.7
   audioSource: {fileID: 1081044663}
+  playMelodyOnTriggerEnter: 1
 --- !u!82 &1081044663
 AudioSource:
   m_ObjectHideFlags: 0
@@ -40589,7 +40595,9 @@ MonoBehaviour:
   slotTag: PlSlot
   targetSlot: {fileID: 1002545434}
   snapSound: {fileID: 8300000, guid: eb113e94a7262ff46ac47f4124c903d2, type: 3}
+  snapSoundVolume: 0.7
   audioSource: {fileID: 0}
+  playMelodyOnTriggerEnter: 1
 --- !u!1 &1601672678
 GameObject:
   m_ObjectHideFlags: 0
@@ -41211,7 +41219,9 @@ MonoBehaviour:
   slotTag: PlSlot
   targetSlot: {fileID: 1002545434}
   snapSound: {fileID: 8300000, guid: 0679bd1c9ec02124e815ed353f4885bd, type: 3}
+  snapSoundVolume: 0.7
   audioSource: {fileID: 0}
+  playMelodyOnTriggerEnter: 1
 --- !u!1001 &1619514396
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45881,7 +45891,9 @@ MonoBehaviour:
   slotTag: PlSlot
   targetSlot: {fileID: 1002545434}
   snapSound: {fileID: 8300000, guid: aefd1d2a2963bac439f82f0e5cdbe6be, type: 3}
+  snapSoundVolume: 0.7
   audioSource: {fileID: 0}
+  playMelodyOnTriggerEnter: 1
 --- !u!1001 &1791195692
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -47449,7 +47461,9 @@ MonoBehaviour:
   slotTag: PlSlot
   targetSlot: {fileID: 1002545434}
   snapSound: {fileID: 8300000, guid: be227350630f38b47941f7849bf6efc6, type: 3}
+  snapSoundVolume: 0.7
   audioSource: {fileID: 0}
+  playMelodyOnTriggerEnter: 1
 --- !u!1 &1874722518 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: da90d7742bfd5794ba9e1553fed82f8c, type: 3}

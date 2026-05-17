@@ -1,138 +1,261 @@
 ﻿using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class PlastincMagnet : MonoBehaviour
 {
     [Header("Настройки")]
-    public float snapDistance = 0.15f;
+    public float snapDistance = 0.35f;
     public float snapSpeed = 10f;
     public string slotTag = "PlSlot";
+
+    [Tooltip("Если пусто — ищется слот по тегу при входе в триггер")]
     public Transform targetSlot;
+
     [Header("Звуки")]
+    [Tooltip("Нота/мелодия этой пластинки (если на слоте нет Music)")]
     public AudioClip snapSound;
+
+    [Range(0f, 1f)]
+    public float snapSoundVolume = 0.7f;
+
     public AudioSource audioSource;
 
-    private bool isSnapping = false;
-    private bool isPlaced = false;
-    private Rigidbody rb;
-    private UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable grabbable;
-    private Collider bookCollider;
-    private Transform originalParent;
-    private bool isBeingHeld = false;
+    [Tooltip("Проигрывать ноту при входе в зону слота (до прилипания)")]
+    public bool playMelodyOnTriggerEnter = true;
 
-    void Start()
+    bool isSnapping;
+    bool isPlaced;
+    bool isBeingHeld;
+    bool playedMelodyThisVisit;
+
+    Rigidbody rb;
+    XRGrabInteractable grabbable;
+    Collider plasticCollider;
+    Transform originalParent;
+
+    void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        grabbable = GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>();
-        bookCollider = GetComponent<Collider>();
-        audioSource = GetComponent<AudioSource>();
+        grabbable = GetComponent<XRGrabInteractable>();
+        plasticCollider = GetComponent<Collider>();
+        originalParent = transform.parent;
+
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
+
         if (audioSource == null && snapSound != null)
         {
             audioSource = gameObject.AddComponent<AudioSource>();
             audioSource.playOnAwake = false;
+            audioSource.spatialBlend = 1f;
         }
-        if (grabbable != null)
-        {
-            grabbable.selectEntered.AddListener(_=>isBeingHeld=true);
-            grabbable.selectExited.AddListener(OnSelectExited);
-        }
+    }
+
+    void OnEnable()
+    {
+        if (grabbable == null)
+            return;
+
+        grabbable.selectEntered.AddListener(OnSelectEntered);
+        grabbable.selectExited.AddListener(OnSelectExited);
+    }
+
+    void OnDisable()
+    {
+        if (grabbable == null)
+            return;
+
+        grabbable.selectEntered.RemoveListener(OnSelectEntered);
+        grabbable.selectExited.RemoveListener(OnSelectExited);
     }
 
     void Update()
     {
-        if (!isPlaced && !isBeingHeld && targetSlot != null)
-        {
-            float diatanceToSlot = Vector3.Distance(transform.position, targetSlot.position);
-            if(diatanceToSlot <= snapDistance&& !isSnapping)
-            {
-                StartSnap();
-            }
-        }
-        {
-            
-        }
-        if (isSnapping && targetSlot != null)
-        {
-            transform.position = Vector3.Lerp(transform.position, targetSlot.position, Time.deltaTime * snapSpeed);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetSlot.rotation, Time.deltaTime * snapSpeed);
+        if (isPlaced || isBeingHeld || targetSlot == null)
+            return;
 
-            if (Vector3.Distance(transform.position, targetSlot.position) < 0.01f)
-            {
-                FinishPlacement();
-            }
-        }
+        if (!isSnapping && Vector3.Distance(transform.position, targetSlot.position) <= snapDistance)
+            StartSnap();
+
+        if (!isSnapping)
+            return;
+
+        transform.position = Vector3.Lerp(transform.position, targetSlot.position, Time.deltaTime * snapSpeed);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetSlot.rotation, Time.deltaTime * snapSpeed);
+
+        if (Vector3.Distance(transform.position, targetSlot.position) < 0.01f)
+            FinishPlacement();
     }
+
+    void OnSelectEntered(SelectEnterEventArgs args)
+    {
+        isBeingHeld = true;
+    }
+
     public void OnSelectExited(SelectExitEventArgs args)
     {
-        if (isPlaced) return;
+        isBeingHeld = false;
 
-        if (targetSlot != null && Vector3.Distance(transform.position, targetSlot.position) <= snapDistance)
-        {
+        if (isPlaced)
+            return;
+
+        TrySnapToTargetSlot();
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (isPlaced || !other.CompareTag(slotTag))
+            return;
+
+        targetSlot = other.transform;
+        playedMelodyThisVisit = false;
+
+        if (playMelodyOnTriggerEnter)
+            PlayMelodyForSlot(other);
+
+        if (!isBeingHeld)
+            TrySnapToTargetSlot();
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (isPlaced || isBeingHeld || !other.CompareTag(slotTag))
+            return;
+
+        if (targetSlot == null)
+            targetSlot = other.transform;
+
+        TrySnapToTargetSlot();
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (!other.CompareTag(slotTag))
+            return;
+
+        playedMelodyThisVisit = false;
+
+        if (!isSnapping && targetSlot == other.transform)
+            targetSlot = null;
+    }
+
+    void TrySnapToTargetSlot()
+    {
+        if (targetSlot == null || isPlaced || isSnapping || isBeingHeld)
+            return;
+
+        if (Vector3.Distance(transform.position, targetSlot.position) <= snapDistance)
             StartSnap();
-        }
     }
 
     void StartSnap()
     {
+        if (isSnapping || isPlaced || targetSlot == null)
+            return;
+
         isSnapping = true;
-        if (rb != null) { rb.isKinematic = true;    rb.linearVelocity = Vector3.zero;  rb.useGravity = false; }
-        if (bookCollider != null) bookCollider.enabled = false;
-        if (grabbable != null) grabbable.enabled = false;
+
+        if (rb != null)
+        {
+            rb.isKinematic = true;
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            rb.useGravity = false;
+        }
+
+        if (plasticCollider != null)
+            plasticCollider.isTrigger = true;
+
+        if (grabbable != null)
+            grabbable.enabled = false;
     }
 
     void FinishPlacement()
     {
-        transform.position = targetSlot.position;
-        transform.rotation = targetSlot.rotation;
+        if (targetSlot == null)
+        {
+            isSnapping = false;
+            return;
+        }
+
+        transform.SetPositionAndRotation(targetSlot.position, targetSlot.rotation);
+        transform.SetParent(targetSlot);
 
         isSnapping = false;
         isPlaced = true;
-        transform.SetParent(targetSlot);
-        if (grabbable != null)
+
+        if (rb != null)
         {
-            grabbable.enabled = true;
-            rb.isKinematic = false;
+            rb.isKinematic = true;
             rb.useGravity = false;
-            rb.angularVelocity= Vector3.zero;
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
             rb.constraints = RigidbodyConstraints.FreezeAll;
         }
-        if (bookCollider != null) bookCollider.enabled = true;
-        PlaySnapSound();
-        FindObjectOfType<PuzzleManager>()?.CheckAllBooksPlaced();
-    }
-    void PlaySnapSound()
-    {
-        if (snapSound != null)
+
+        if (plasticCollider != null)
         {
-            if(audioSource != null) audioSource.PlayOneShot(snapSound,0.5f);
-            Debug.Log("Playing");
+            plasticCollider.isTrigger = false;
+            plasticCollider.enabled = true;
         }
-        
+
+        if (grabbable != null)
+            grabbable.enabled = true;
+
+        PlayMelodyForSlot(targetSlot, force: true);
+        FindFirstObjectByType<PuzzleManager>()?.CheckAllBooksPlaced();
     }
+
+    void PlayMelodyForSlot(Component slot, bool force = false)
+    {
+        if (!force && playedMelodyThisVisit)
+            return;
+
+        var clip = snapSound;
+        if (slot != null)
+        {
+            var slotMusic = slot.GetComponent<Music>();
+            if (slotMusic != null && slotMusic.melodyClip != null)
+                clip = slotMusic.melodyClip;
+        }
+
+        if (clip == null)
+            return;
+
+        if (audioSource != null)
+            audioSource.PlayOneShot(clip, snapSoundVolume);
+        else
+            AudioSource.PlayClipAtPoint(clip, transform.position, snapSoundVolume);
+
+        playedMelodyThisVisit = true;
+    }
+
     public void RemoveFromSlot()
     {
-        if (!isPlaced) return;
+        if (!isPlaced)
+            return;
 
         isPlaced = false;
+        isSnapping = false;
+        playedMelodyThisVisit = false;
+
         transform.SetParent(originalParent);
-        if (rb != null){rb.isKinematic = false; rb.useGravity = true; }
-        if (grabbable != null){ grabbable.enabled = true;}
-        if (bookCollider != null){bookCollider.enabled = true; }
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("PlSlot") && targetSlot != null) { targetSlot = other.transform; }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag(slotTag) && targetSlot == other.transform)
+
+        if (rb != null)
         {
-            // Не сбрасываем targetSlot сразу, чтобы не прерывать начатое притягивание
-            if (!isSnapping)
-            {
-                targetSlot = null;
-            }
+            rb.constraints = RigidbodyConstraints.None;
+            rb.isKinematic = false;
+            rb.useGravity = true;
+        }
+
+        if (grabbable != null)
+            grabbable.enabled = true;
+
+        if (plasticCollider != null)
+        {
+            plasticCollider.enabled = true;
+            plasticCollider.isTrigger = false;
         }
     }
 }
