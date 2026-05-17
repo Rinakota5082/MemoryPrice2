@@ -4,10 +4,16 @@ using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class KeypadController : MonoBehaviour
-{
+{   
+    [System.Serializable]
+    public class Codes
+    {
+        public string digit;
+    }
     [Header("Code Settings")]
-    [SerializeField] private string correctCode = "12345"; // Код, который нужно угадать
-    [SerializeField] private int maxDigits = 5; // Максимальная длина кода
+    
+    [SerializeField] private Codes[] correctCode ; // Код, который нужно угадать
+    [SerializeField] private int maxDigits = 4; 
 
     [System.Serializable]
     public class KeypadButton
@@ -15,6 +21,7 @@ public class KeypadController : MonoBehaviour
         public XRSimpleInteractable button; 
         public string digit;                
     }
+    
     [Header("Button References")]
     [SerializeField] private KeypadButton[] buttons; // Список всех кнопок панели
 
@@ -77,16 +84,13 @@ public class KeypadController : MonoBehaviour
     // функцию вызываем для каждой цифры из инспектора
     public void AddDigit(string digit)
     {
-        if (isCodeCorrect) return; // Если код уже введен, игнорируем нажатия
+        if (isCodeCorrect) return;
 
         if (currentInput.Length < maxDigits)
         {
-            currentInput += digit;
-            Debug.Log($"Current code: {currentInput}");            
+            currentInput += digit;          
             OnCodeUpdated?.Invoke(currentInput);
         }
-
-        // если набрана нужная длина 
         if (currentInput.Length == maxDigits && !isCodeCorrect)
         {
             CheckCode();
@@ -112,7 +116,6 @@ public class KeypadController : MonoBehaviour
 
         currentInput = "";
         OnCodeUpdated?.Invoke(currentInput);
-        Debug.Log("Code reset");
 
         // Сброс цвета дисплея
         if (displayRenderer != null)
@@ -123,41 +126,43 @@ public class KeypadController : MonoBehaviour
     public void CheckCode()
     {
         if (isCodeCorrect) return;
-
-        if (currentInput == correctCode)
+        foreach (Codes correctcode in correctCode)
         {
-            isCodeCorrect = true;
-
-            // Визуальный фидбек
-            if (displayRenderer != null)
-                displayRenderer.material = correctCodeMaterial;
-
-            // Звуковой фидбек
-            if (audioSource != null && correctSound != null)
-                audioSource.PlayOneShot(correctSound);
-
-            if (doorToUnlock != null)
-                doorToUnlock.Unlock();  // Вызываем разблокировку РУЧКИ
-        }
-        else
-        {
-            Debug.Log($"WRONG CODE! '{currentInput}' is not correct.");
-
-            // Визуальный фидбек ошибки
-            if (displayRenderer != null && wrongCodeMaterial != null)
+            if (currentInput == correctcode.digit)
             {
-                displayRenderer.material = wrongCodeMaterial;
-                // Возвращаем обычный цвет через секунду
-                Invoke(nameof(ResetDisplayColor), 0.5f);
+                isCodeCorrect = true;
+
+                // Визуальный фидбек
+                if (displayRenderer != null)
+                    displayRenderer.material = correctCodeMaterial;
+
+                // Звуковой фидбек
+                if (audioSource != null && correctSound != null)
+                    audioSource.PlayOneShot(correctSound);
+
+                if (doorToUnlock != null)
+                    doorToUnlock.Unlock();  // Вызываем разблокировку РУЧКИ
             }
+            else
+            {
+                Debug.Log($"WRONG CODE! '{currentInput}' is not correct.");
 
-            // Звуковой фидбек ошибки
-            if (audioSource != null && wrongSound != null)
-                audioSource.PlayOneShot(wrongSound);
+                // Визуальный фидбек ошибки
+                if (displayRenderer != null && wrongCodeMaterial != null)
+                {
+                    displayRenderer.material = wrongCodeMaterial;
+                    // Возвращаем обычный цвет через секунду
+                    Invoke(nameof(ResetDisplayColor), 0.5f);
+                }
 
-            // Очищаем ввод при ошибке
-            currentInput = "";
-            OnCodeUpdated?.Invoke(currentInput);
+                // Звуковой фидбек ошибки
+                if (audioSource != null && wrongSound != null)
+                    audioSource.PlayOneShot(wrongSound);
+
+                // Очищаем ввод при ошибке
+                currentInput = "";
+                OnCodeUpdated?.Invoke(currentInput);
+            }
         }
     }
 

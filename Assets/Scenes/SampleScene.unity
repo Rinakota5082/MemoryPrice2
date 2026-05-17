@@ -2792,6 +2792,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f3f22f5d234d57a4fa0d6c57b9f1c406, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1256848845}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f3f22f5d234d57a4fa0d6c57b9f1c406, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1256848847}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f3f22f5d234d57a4fa0d6c57b9f1c406, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1256848846}
   m_SourcePrefab: {fileID: 100100000, guid: f3f22f5d234d57a4fa0d6c57b9f1c406, type: 3}
 --- !u!1001 &111897283
 PrefabInstance:
@@ -4219,8 +4225,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4752a9f4cf39cfd49993f8b8091544c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KeypadController
-  correctCode: 12345
-  maxDigits: 5
+  correctCode:
+  - digit: 7134
+  - digit: 7143
+  - digit: 7314
+  - digit: 7341
+  - digit: 7413
+  - digit: 7431
+  - digit: 1347
+  - digit: 1374
+  - digit: 1437
+  - digit: 1473
+  - digit: 1734
+  - digit: 1743
+  - digit: 3147
+  - digit: 3174
+  - digit: 3417
+  - digit: 3471
+  - digit: 3714
+  - digit: 3417
+  - digit: 4137
+  - digit: 4173
+  - digit: 4317
+  - digit: 4371
+  - digit: 4713
+  - digit: 4731
+  maxDigits: 4
   buttons:
   - button: {fileID: 773750678}
     digit: 1
@@ -4242,7 +4272,7 @@ MonoBehaviour:
     digit: 9
   - button: {fileID: 997571566}
     digit: 0
-  doorToUnlock: {fileID: 0}
+  doorToUnlock: {fileID: 880856262}
   resetButton: {fileID: 2041973063}
   backspaceButton: {fileID: 1891273788}
   displayRenderer: {fileID: 0}
@@ -15577,7 +15607,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KeypadDisplay
   displayText: {fileID: 649406333}
   keypadController: {fileID: 170244164}
-  placeholderText: 00000
+  placeholderText: 0000
 --- !u!114 &649406333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15598,7 +15628,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 00000
+  m_text: 0000
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -28011,7 +28041,7 @@ Light:
   serializedVersion: 11
   m_Type: 2
   m_Color: {r: 0.9056604, g: 0.86721253, b: 0.86721253, a: 1}
-  m_Intensity: 1.6
+  m_Intensity: 0.5
   m_Range: 5
   m_SpotAngle: 115.38827
   m_InnerSpotAngle: 98.340004
@@ -28675,7 +28705,7 @@ Light:
   serializedVersion: 11
   m_Type: 2
   m_Color: {r: 0.9056604, g: 0.86721253, b: 0.86721253, a: 1}
-  m_Intensity: 1.6
+  m_Intensity: 0.5
   m_Range: 5
   m_SpotAngle: 115.38827
   m_InnerSpotAngle: 98.340004
@@ -30254,6 +30284,100 @@ MonoBehaviour:
     m_Bits: 8
   invisibleMaterial: {fileID: 2100000, guid: 10dc14e048c002343a8460a4a8bfc79f, type: 2}
   visibleMaterial: {fileID: 2100000, guid: 814cebcc6a7445f43b4b448f6257c218, type: 2}
+--- !u!114 &1256848846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1256848838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
+--- !u!108 &1256848847
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1256848838}
+  m_Enabled: 1
+  serializedVersion: 11
+  m_Type: 0
+  m_Color: {r: 0.42745098, g: 0, b: 0.8392157, a: 1}
+  m_Intensity: 1
+  m_Range: 10
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ForceVisible: 0
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+  m_LightUnit: 1
+  m_LuxAtDistance: 1
+  m_EnableSpotReflector: 1
 --- !u!1 &1257837671
 GameObject:
   m_ObjectHideFlags: 0
@@ -42995,7 +43119,7 @@ Light:
   serializedVersion: 11
   m_Type: 2
   m_Color: {r: 0.9056604, g: 0.86721253, b: 0.86721253, a: 1}
-  m_Intensity: 1.6
+  m_Intensity: 0.5
   m_Range: 5
   m_SpotAngle: 115.38827
   m_InnerSpotAngle: 98.340004
