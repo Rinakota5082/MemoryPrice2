@@ -1005,6 +1005,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Gramophone
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 427164951e73a6c49805238f14674db9, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9836,13 +9840,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a671fd08cb535f4c9ca227a98be28ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlacticMagnet
-  snapDistance: 0.15
+  snapDistance: 0.5
   snapSpeed: 10
   slotTag: PlSlot
   targetSlot: {fileID: 1002545434}
   snapSound: {fileID: 8300000, guid: 98c42559d38fabc43b80dcb38d16a99c, type: 3}
-  snapSoundVolume: 0.7
-  audioSource: {fileID: 0}
+  snapSoundVolume: 0.22
   playMelodyOnTriggerEnter: 1
 --- !u!1 &358360268
 GameObject:
@@ -10729,13 +10732,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a671fd08cb535f4c9ca227a98be28ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlacticMagnet
-  snapDistance: 0.15
+  snapDistance: 0.5
   snapSpeed: 10
   slotTag: PlSlot
   targetSlot: {fileID: 1002545434}
   snapSound: {fileID: 8300000, guid: dd15bd3c04fde9749b01f706dad0d8c5, type: 3}
-  snapSoundVolume: 0.7
-  audioSource: {fileID: 0}
+  snapSoundVolume: 0.22
   playMelodyOnTriggerEnter: 1
 --- !u!1 &410087039
 GameObject:
@@ -17396,7 +17398,7 @@ PrefabInstance:
       addedObject: {fileID: 1081044660}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 571d02f8b3d4cb54bbd01e3c474fb1d5, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1081044663}
+      addedObject: {fileID: 1081044667}
   m_SourcePrefab: {fileID: 100100000, guid: 571d02f8b3d4cb54bbd01e3c474fb1d5, type: 3}
 --- !u!4 &742849031 stripped
 Transform:
@@ -24438,13 +24440,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1002545433}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.99993765, z: 0.0111692, w: 0}
-  m_LocalPosition: {x: 1.1089001, y: 1.202, z: 3.244}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0.7071068, w: 0}
+  m_LocalPosition: {x: 1.1089001, y: 1.144, z: 3.244}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1077335792}
-  m_LocalEulerAnglesHint: {x: -178.72, y: 0, z: 180}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 180}
 --- !u!65 &1002545435
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24464,7 +24466,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.69, y: 0.44, z: 0.38}
+  m_Size: {x: 1.2, y: 0.8, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1012707953
 PrefabInstance:
@@ -26272,16 +26274,15 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5a671fd08cb535f4c9ca227a98be28ed, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlacticMagnet
-  snapDistance: 0.15
-  snapSpeed: 10
+  m_EditorClassIdentifier: Assembly-CSharp::PlastincMagnet
+  snapDistance: 0.5
+  snapSpeed: 12
   slotTag: PlSlot
   targetSlot: {fileID: 1002545434}
   snapSound: {fileID: 8300000, guid: 7bc5196c3cadd4f4ba180087f3985c0d, type: 3}
-  snapSoundVolume: 0.7
-  audioSource: {fileID: 1081044663}
+  snapSoundVolume: 0.22
   playMelodyOnTriggerEnter: 1
---- !u!82 &1081044663
+--- !u!82 &1081044667
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -26294,7 +26295,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.286
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -26338,7 +26339,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -40590,13 +40591,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a671fd08cb535f4c9ca227a98be28ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlacticMagnet
-  snapDistance: 0.15
+  snapDistance: 0.5
   snapSpeed: 10
   slotTag: PlSlot
   targetSlot: {fileID: 1002545434}
   snapSound: {fileID: 8300000, guid: eb113e94a7262ff46ac47f4124c903d2, type: 3}
-  snapSoundVolume: 0.7
-  audioSource: {fileID: 0}
+  snapSoundVolume: 0.22
   playMelodyOnTriggerEnter: 1
 --- !u!1 &1601672678
 GameObject:
@@ -41214,13 +41214,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a671fd08cb535f4c9ca227a98be28ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlacticMagnet
-  snapDistance: 0.15
+  snapDistance: 0.5
   snapSpeed: 10
   slotTag: PlSlot
   targetSlot: {fileID: 1002545434}
   snapSound: {fileID: 8300000, guid: 0679bd1c9ec02124e815ed353f4885bd, type: 3}
-  snapSoundVolume: 0.7
-  audioSource: {fileID: 0}
+  snapSoundVolume: 0.22
   playMelodyOnTriggerEnter: 1
 --- !u!1001 &1619514396
 PrefabInstance:
@@ -45886,13 +45885,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a671fd08cb535f4c9ca227a98be28ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlacticMagnet
-  snapDistance: 0.15
+  snapDistance: 0.5
   snapSpeed: 10
   slotTag: PlSlot
   targetSlot: {fileID: 1002545434}
   snapSound: {fileID: 8300000, guid: aefd1d2a2963bac439f82f0e5cdbe6be, type: 3}
-  snapSoundVolume: 0.7
-  audioSource: {fileID: 0}
+  snapSoundVolume: 0.22
   playMelodyOnTriggerEnter: 1
 --- !u!1001 &1791195692
 PrefabInstance:
@@ -47456,13 +47454,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a671fd08cb535f4c9ca227a98be28ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlacticMagnet
-  snapDistance: 0.15
+  snapDistance: 0.5
   snapSpeed: 10
   slotTag: PlSlot
   targetSlot: {fileID: 1002545434}
   snapSound: {fileID: 8300000, guid: be227350630f38b47941f7849bf6efc6, type: 3}
-  snapSoundVolume: 0.7
-  audioSource: {fileID: 0}
+  snapSoundVolume: 0.22
   playMelodyOnTriggerEnter: 1
 --- !u!1 &1874722518 stripped
 GameObject:
@@ -50658,7 +50655,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1767192437, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1767192439, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: field of view
