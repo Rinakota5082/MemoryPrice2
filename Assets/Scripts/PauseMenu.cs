@@ -95,18 +95,21 @@ public class PauseMenu : MonoBehaviour
 
     public void SaveAndQuitToMenu()
     {
+        //Ищем игрока по тегу "Player" (должен висеть на XR Origin!)
         GameObject player = GameObject.FindGameObjectWithTag("Player");
+
         if (player != null)
         {
-            Vector3 pos = player.transform.position;
-            PlayerPrefs.SetFloat("PlayerPosX", pos.x);
-            PlayerPrefs.SetFloat("PlayerPosY", pos.y);
-            PlayerPrefs.SetFloat("PlayerPosZ", pos.z);
-            PlayerPrefs.SetInt("HasSave", 1);
-            PlayerPrefs.Save();
-            Debug.Log("Сохранено перед выходом: " + pos);
+            // Сохраняем через наш SaveSystem (сцена + позиция + поворот)
+            SaveSystem.SaveGame(SceneManager.GetActiveScene().name, player.transform);
+            Debug.Log($"[Pause] Игра сохранена: {player.transform.position}");
+        }
+        else
+        {
+            Debug.LogWarning("[Pause] Игрок с тегом 'Player' не найден! Проверь тег у XR Origin.");
         }
 
+        // Возвращаем время и грузим меню
         Time.timeScale = 1f;
         SceneManager.LoadScene(menuSceneName);
     }
