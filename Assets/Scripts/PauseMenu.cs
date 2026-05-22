@@ -47,9 +47,6 @@ public class PauseMenu : MonoBehaviour
         if (pauseMenuPanel != null)
             pauseMenuPanel.SetActive(false);
 
-        // Для VR курсор обычно не нужен, но оставим поведение как у тебя.
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
 
         // На всякий случай, если сцена ранее осталась в паузе.
         Time.timeScale = 1f;
@@ -101,7 +98,7 @@ public class PauseMenu : MonoBehaviour
         if (player != null)
         {
             // Сохраняем через наш SaveSystem (сцена + позиция + поворот)
-            SaveSystem.SaveGame(SceneManager.GetActiveScene().name, player.transform);
+
             Debug.Log($"[Pause] Игра сохранена: {player.transform.position}");
         }
         else
