@@ -4,11 +4,12 @@ using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlastincMagnet : MonoBehaviour
+public class PlastincMagnet1 : MonoBehaviour
 {
     [Header("Настройки")]
     public float snapDistance = 0.5f;
     public float snapSpeed = 12f;
+    [SerializeField] private Door doorToUnlock;
 
     [Tooltip("Тег зоны слота (PlSlot, Pl_ID, …)")]
     public string slotTag = "PlSlot";
@@ -65,14 +66,12 @@ public class PlastincMagnet : MonoBehaviour
 
     void Update()
     {
-        if (isPlaced || isBeingHeld || targetSlot == null)
-            return;
+        doorToUnlock.Point5 = isPlaced;
+        if (isPlaced || isBeingHeld || targetSlot == null) { return; }
 
-        if (!isSnapping && IsCloseToSlot())
-            StartSnap();
+        if (!isSnapping && IsCloseToSlot())StartSnap();
 
-        if (!isSnapping)
-            return;
+        if (!isSnapping) return;
 
         var t = Time.deltaTime * snapSpeed;
         transform.position = Vector3.Lerp(transform.position, targetSlot.position, t);
@@ -85,10 +84,8 @@ public class PlastincMagnet : MonoBehaviour
     void OnSelectEntered(SelectEnterEventArgs args)
     {
         isBeingHeld = true;
-
         if (isPlaced)
             DetachFromSlot();
-
         if (isSnapping)
             CancelSnap();
     }
@@ -120,7 +117,6 @@ public class PlastincMagnet : MonoBehaviour
     {
         if (isPlaced || isBeingHeld || slot == null)
             return;
-
         targetSlot = slot;
         TrySnapToTargetSlot();
     }

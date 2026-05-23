@@ -7,17 +7,14 @@ public class KeypadDisplay : MonoBehaviour
     [SerializeField] private TMP_Text displayText; 
     [SerializeField] private KeypadController keypadController;
     [Header("Display Settings")]
-    [SerializeField] private string placeholderText = "00000";    // Текст, когда код пустой
+    [SerializeField] private string placeholderText = "0000";
 
     void Start()
     {
-        // Подписываемся на события панели
         if (keypadController != null)
         {
             keypadController.OnCodeUpdated += UpdateDisplay;
         }
-
-        // Начальное состояние
         UpdateDisplay("");
     }
 
@@ -29,14 +26,10 @@ public class KeypadDisplay : MonoBehaviour
             keypadController.OnCodeUpdated -= UpdateDisplay;
         }
     }
-
-    //изменение текста на панели
     private void UpdateDisplay(string currentCode)
     {
-        if (displayText == null) return;        //если уже введен корректный код
-
-        
-        if (string.IsNullOrEmpty(currentCode))  //если код пустой
+        if (displayText == null) return;      
+        if (string.IsNullOrEmpty(currentCode))
         {
             displayText.text = placeholderText;
             return;

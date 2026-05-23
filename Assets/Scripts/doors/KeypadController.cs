@@ -29,16 +29,16 @@ public class KeypadController : MonoBehaviour
     [SerializeField] private DoorUnlock doorToUnlock;  // Ссылка на объект Door
 
     [Header("Action Buttons")]
-    [SerializeField] private XRSimpleInteractable resetButton;   // Кнопка сброса
-    [SerializeField] private XRSimpleInteractable backspaceButton; // Кнопка удаления
+    [SerializeField] private XRSimpleInteractable resetButton;   
+    [SerializeField] private XRSimpleInteractable backspaceButton; 
 
     [Header("Feedback")]
-    [SerializeField] private MeshRenderer displayRenderer; // Ссылка на дисплей (для подсветки)
-    [SerializeField] private Material correctCodeMaterial; // Материал при правильном коде
-    [SerializeField] private Material wrongCodeMaterial;   // Материал при ошибке 
+    [SerializeField] private MeshRenderer displayRenderer; 
+    [SerializeField] private Material correctCodeMaterial; 
+    [SerializeField] private Material wrongCodeMaterial;   
 
     [Header("Actions")]
-    [SerializeField] private GameObject objectToActivate; // Что произойдет при успехе (дверь)
+    [SerializeField] private GameObject objectToActivate;
 
     [Header("Audio (Optional)")]
     [SerializeField] private AudioSource audioSource;
@@ -54,7 +54,6 @@ public class KeypadController : MonoBehaviour
 
     void Start()
     {
-        // Сохраняем стандартный материал дисплея, чтобы вернуть его при сбросе
         if (displayRenderer != null)
             defaultMaterial = displayRenderer.material;
         SetupButtons();
@@ -62,26 +61,17 @@ public class KeypadController : MonoBehaviour
 
     private void SetupButtons()
     {
-        // Подписываем цифровые кнопки
+        
         foreach (KeypadButton btn in buttons)
         {
             if (btn.button == null) continue;
-
-            // Захватываем текущую цифру в локальную переменную, чтобы не было бага с замыканием
+            
             string digitToAdd = btn.digit;
             btn.button.selectEntered.AddListener((args) => AddDigit(digitToAdd));
         }
-
-        // Подписываем кнопку Reset
-        if (resetButton != null)
-            resetButton.selectEntered.AddListener((args) => ResetCode());
-
-        // Подписываем кнопку Backspace
-        if (backspaceButton != null)
-            backspaceButton.selectEntered.AddListener((args) => Backspace());
+        resetButton.selectEntered.AddListener((args) => ResetCode());
+        backspaceButton.selectEntered.AddListener((args) => Backspace());
     }
-
-    // функцию вызываем для каждой цифры из инспектора
     public void AddDigit(string digit)
     {
         if (isCodeCorrect) return;
@@ -96,8 +86,6 @@ public class KeypadController : MonoBehaviour
             CheckCode();
         }
     }
-
-    //  Функция для кнопки "Стереть последнюю цифру"
     public void Backspace()
     {
         if (isCodeCorrect) return;
@@ -108,8 +96,6 @@ public class KeypadController : MonoBehaviour
             OnCodeUpdated?.Invoke(currentInput);
         }
     }
-
-    // Функция для кнопки "Сброс" (очистить все)
     public void ResetCode()
     {
         if (isCodeCorrect) return;
@@ -121,8 +107,6 @@ public class KeypadController : MonoBehaviour
         if (displayRenderer != null)
             displayRenderer.material = defaultMaterial;
     }
-
-    // проверка кода
     public void CheckCode()
     {
         if (isCodeCorrect) return;
@@ -131,42 +115,29 @@ public class KeypadController : MonoBehaviour
             if (currentInput == correctcode.digit)
             {
                 isCodeCorrect = true;
-
-                // Визуальный фидбек
                 if (displayRenderer != null)
                     displayRenderer.material = correctCodeMaterial;
-
-                // Звуковой фидбек
                 if (audioSource != null && correctSound != null)
                     audioSource.PlayOneShot(correctSound);
 
                 if (doorToUnlock != null)
-                    doorToUnlock.Unlock();  // Вызываем разблокировку РУЧКИ
+                    doorToUnlock.Unlock();
             }
             else
             {
-                Debug.Log($"WRONG CODE! '{currentInput}' is not correct.");
-
-                // Визуальный фидбек ошибки
                 if (displayRenderer != null && wrongCodeMaterial != null)
                 {
                     displayRenderer.material = wrongCodeMaterial;
                     // Возвращаем обычный цвет через секунду
                     Invoke(nameof(ResetDisplayColor), 0.5f);
                 }
-
-                // Звуковой фидбек ошибки
                 if (audioSource != null && wrongSound != null)
                     audioSource.PlayOneShot(wrongSound);
-
-                // Очищаем ввод при ошибке
                 currentInput = "";
                 OnCodeUpdated?.Invoke(currentInput);
             }
         }
     }
-
-
     private void ResetDisplayColor()
     {
         if (displayRenderer != null && !isCodeCorrect)

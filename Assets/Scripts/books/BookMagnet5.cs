@@ -69,9 +69,7 @@ public class BookMagnet5 : MonoBehaviour
         isSnapping = false;
         isPlaced = true;
         transform.SetParent(targetSlot);
-
-        if (doorToUnlock != null)
-            doorToUnlock.Point5 = true;
+        doorToUnlock.Point5 = true;
 
         FindObjectOfType<PuzzleManager>()?.CheckAllBooksPlaced();
     }

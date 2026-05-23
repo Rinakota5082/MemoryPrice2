@@ -41,7 +41,6 @@ public class PlastincTriggerAudio : MonoBehaviour
             if (!string.IsNullOrEmpty(tag) && other.CompareTag(tag))
                 return true;
         }
-
         return false;
     }
 

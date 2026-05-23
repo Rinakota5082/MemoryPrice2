@@ -29,7 +29,6 @@ public class Door : MonoBehaviour
         // »значально ƒ¬≈–№ нельз€ хватать
         if (doorGrab != null)
             doorGrab.enabled = false;
-
         // Ѕлокируем вращение двери
         if (doorHinge != null)
             doorHinge.useLimits = false;
@@ -39,19 +38,12 @@ public class Door : MonoBehaviour
     {
         if (isUnlocked) return;
         isUnlocked = true;
-
-        // . ƒ¬≈–№ теперь можно хватать!
         if (doorGrab != null)
             doorGrab.enabled = true;
-
-        // . ¬ключаем лимиты вращени€ двери
         if (doorHinge != null)
             doorHinge.useLimits = true;
-
-        // . «вук
         if (audioSource != null && unlockSound != null)
             audioSource.PlayOneShot(unlockSound);
-
         Debug.Log($"Door UNLOCKED! Now you can grab the DOOR.");
     }
 }
