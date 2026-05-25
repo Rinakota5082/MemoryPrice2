@@ -1,24 +1,24 @@
-using System.Collections;
+п»їusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+using TMPro; // РћР±СЏР·Р°С‚РµР»СЊРЅРѕ РґР»СЏ TextMeshPro
 
 [RequireComponent(typeof(AudioSource))]
 public class SubtitleManager : MonoBehaviour
 {
-    [Header("Компоненты")]
-    [Tooltip("TextMeshProUGUI, в который будут выводиться субтитры")]
+    [Header("РљРѕРјРїРѕРЅРµРЅС‚С‹")]
+    [Tooltip("РЎСЃС‹Р»РєР° РЅР° TextMeshProUGUI")]
     public TextMeshProUGUI subtitleText;
 
-    [Header("Список субтитров")]
+    [Header("РЎРїРёСЃРѕРє СЃСѓР±С‚РёС‚СЂРѕРІ")]
     public List<SubtitleLine> subtitles;
 
-    [Header("Настройки")]
-    [Tooltip("Автоматически запустить воспроизведение при старте сцены")]
+    [Header("РќР°СЃС‚СЂРѕР№РєРё")]
     public bool playOnStart = false;
-
-    [Tooltip("Очищать текст субтитров по окончании")]
     public bool clearOnFinish = true;
+
+    [Tooltip("Р—Р°РґРµСЂР¶РєР° РїРµСЂРµРґ СЃС‚Р°СЂС‚РѕРј РїСЂРѕРІРµСЂРєРё СЃСѓР±С‚РёС‚СЂРѕРІ (РїРѕРјРѕРіР°РµС‚ РїСЂРё СЂР°СЃСЃРёРЅС…СЂРѕРЅРµ)")]
+    public float startDelay = 0.1f;
 
     private AudioSource audioSource;
     private bool isPlaying = false;
@@ -26,7 +26,11 @@ public class SubtitleManager : MonoBehaviour
     void Awake()
     {
         audioSource = GetComponent<AudioSource>();
-        if (subtitleText != null)
+
+        // РџСЂРѕРІРµСЂРєР° РїСЂРё СЃС‚Р°СЂС‚Рµ: РµСЃР»Рё СЃСЃС‹Р»РєРё РЅРµС‚ вЂ” РїРёС€РµРј Р¶РёСЂРЅСѓСЋ РѕС€РёР±РєСѓ РІ РєРѕРЅСЃРѕР»СЊ
+        if (subtitleText == null)
+            Debug.LogError("вќЊ SubtitleManager: РќРµ РЅР°Р·РЅР°С‡РµРЅ РєРѕРјРїРѕРЅРµРЅС‚ Subtitle Text! РџРµСЂРµС‚Р°С‰РёС‚Рµ РІР°С€ TMP С‚РµРєСЃС‚ РІ РёРЅСЃРїРµРєС‚РѕСЂРµ.");
+        else
             subtitleText.text = "";
     }
 
@@ -38,67 +42,74 @@ public class SubtitleManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Запускает воспроизведение аудиоклипа и синхронизирует субтитры.
-    /// </summary>
     public void PlayWithSubtitles()
     {
         if (audioSource.clip == null)
         {
-            Debug.LogWarning("Нет аудиоклипа в AudioSource!");
+            Debug.LogWarning("вљ пёЏ РќРµС‚ Р°СѓРґРёРѕРєР»РёРїР° РІ AudioSource!");
             return;
         }
 
-        if (subtitles == null || subtitles.Count == 0)
-        {
-            // Нет субтитров — просто проигрываем звук
-            audioSource.Play();
-            return;
-        }
-
+        // РЎР±СЂР°СЃС‹РІР°РµРј РІСЂРµРјСЏ Р°СѓРґРёРѕ РІ 0, С‡С‚РѕР±С‹ СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёСЏ Р±С‹Р»Р° С‚РѕС‡РЅРѕР№
+        audioSource.time = 0f;
         audioSource.Play();
+
         isPlaying = true;
+
+        // Р—Р°РїСѓСЃРєР°РµРј РєРѕСЂСѓС‚РёРЅСѓ СЃ РЅРµР±РѕР»СЊС€РѕР№ Р·Р°РґРµСЂР¶РєРѕР№, С‡С‚РѕР±С‹ Р°СѓРґРёРѕ СѓСЃРїРµР»Рѕ РёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°С‚СЊСЃСЏ
         StartCoroutine(UpdateSubtitles());
     }
 
-    /// <summary>
-    /// Останавливает воспроизведение и очищает субтитры.
-    /// </summary>
     public void StopWithSubtitles()
     {
-        if (audioSource.isPlaying)
-            audioSource.Stop();
-
-        if (clearOnFinish && subtitleText != null)
-            subtitleText.text = "";
-
+        if (audioSource.isPlaying) audioSource.Stop();
+        if (clearOnFinish && subtitleText != null) subtitleText.text = "";
         isPlaying = false;
         StopAllCoroutines();
     }
 
     private IEnumerator UpdateSubtitles()
     {
+        // РќРµР±РѕР»СЊС€Р°СЏ РїР°СѓР·Р° РІ РЅР°С‡Р°Р»Рµ РґР»СЏ СЃС‚Р°Р±РёР»СЊРЅРѕСЃС‚Рё
+        yield return new WaitForSeconds(startDelay);
+
         int currentIndex = 0;
 
-        while (audioSource.isPlaying && currentIndex < subtitles.Count)
+        // РџСЂРѕРґРѕР»Р¶Р°РµРј, РїРѕРєР° Р°СѓРґРёРѕ РёРіСЂР°РµС‚ РР›Р РїРѕРєР° РЅРµ РїРѕРєР°Р·Р°Р»Рё РІСЃРµ СЃСѓР±С‚РёС‚СЂС‹
+        // (РёРЅРѕРіРґР° Р°СѓРґРёРѕ С‡СѓС‚СЊ РєРѕСЂРѕС‡Рµ РїРѕСЃР»РµРґРЅРµР№ СЃСѓР±С‚РёС‚СЂРѕРІРѕР№ РјРµС‚РєРё)
+        while ((audioSource.isPlaying || currentIndex < subtitles.Count) && isPlaying)
         {
             float currentTime = audioSource.time;
 
-            // Если текущее время достигло времени следующего субтитра
-            if (currentTime >= subtitles[currentIndex].time)
+            // РџСЂРѕРІРµСЂРєР°: РµСЃР»Рё РІСЂРµРјСЏ РїСЂРёС€Р»Рѕ Рё РёРЅРґРµРєСЃ РІ РїСЂРµРґРµР»Р°С… СЃРїРёСЃРєР°
+            if (currentIndex < subtitles.Count && currentTime >= subtitles[currentIndex].time)
             {
+                string newText = subtitles[currentIndex].text;
+
                 if (subtitleText != null)
-                    subtitleText.text = subtitles[currentIndex].text;
+                {
+                    subtitleText.text = newText;
+
+                    // рџ”Ґ Р’РђР–РќРћ Р”Р›РЇ VR Р TMP:
+                    // РџСЂРёРЅСѓРґРёС‚РµР»СЊРЅРѕ РѕР±РЅРѕРІР»СЏРµРј РјРµС€ С‚РµРєСЃС‚Р°, С‡С‚РѕР±С‹ РѕРЅ РїРѕСЏРІРёР»СЃСЏ РјРіРЅРѕРІРµРЅРЅРѕ
+                    subtitleText.ForceMeshUpdate();
+
+                    // Р”Р»СЏ РѕС‚Р»Р°РґРєРё: СЂР°СЃРєРѕРјРјРµРЅС‚РёСЂСѓР№С‚Рµ СЃС‚СЂРѕРєСѓ РЅРёР¶Рµ, С‡С‚РѕР±С‹ РІРёРґРµС‚СЊ РІ РєРѕРЅСЃРѕР»Рё, С‡С‚Рѕ С‚РµРєСЃС‚ СЃС‚Р°РІРёС‚СЃСЏ
+                    // Debug.Log($"[Subtitles {currentTime:F2}s]: {newText}");
+                }
 
                 currentIndex++;
             }
 
-            yield return null; // ждём один кадр
+            yield return null; // Р–РґС‘Рј СЃР»РµРґСѓСЋС‰РёР№ РєР°РґСЂ
         }
 
-        // Воспроизведение закончилось
+        // Р¤РёРЅР°Р»СЊРЅР°СЏ РѕС‡РёСЃС‚РєР°
         if (clearOnFinish && subtitleText != null)
+        {
             subtitleText.text = "";
+            subtitleText.ForceMeshUpdate();
+        }
 
         isPlaying = false;
     }
