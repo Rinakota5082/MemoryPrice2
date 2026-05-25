@@ -48,18 +48,12 @@ public class PlastincMagnet1 : MonoBehaviour
     }
     void OnEnable()
     {
-        if (grabbable == null)
-            return;
-
         grabbable.selectEntered.AddListener(OnSelectEntered);
         grabbable.selectExited.AddListener(OnSelectExited);
     }
 
     void OnDisable()
     {
-        if (grabbable == null)
-            return;
-
         grabbable.selectEntered.RemoveListener(OnSelectEntered);
         grabbable.selectExited.RemoveListener(OnSelectExited);
     }
@@ -104,9 +98,7 @@ public class PlastincMagnet1 : MonoBehaviour
     {
         if (slot == null)
             return;
-
         targetSlot = slot;
-
         if (isPlaced || isBeingHeld)
             return;
 
@@ -229,9 +221,6 @@ public class PlastincMagnet1 : MonoBehaviour
     private void PlayMusicOnPlastic()
     {
         AudioClip clip = snapSound;
-
-        if (clip == null) return;
-
         // Воспроизводим музыку на пластине
         audioSource.clip = clip;
         audioSource.volume = snapSoundVolume;
@@ -256,8 +245,6 @@ public class PlastincMagnet1 : MonoBehaviour
     }
     void EnsureGrabUsesGravity()
     {
-        if (grabbable == null)
-            return;
         var field = typeof(XRGrabInteractable).GetField("m_ForceGravityOnDetach",BindingFlags.Instance | BindingFlags.NonPublic);field?.SetValue(grabbable, true);
     }
 

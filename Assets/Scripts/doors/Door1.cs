@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
-public class Door : MonoBehaviour
+public class Door1 : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private XRGrabInteractable doorGrab;   // Ссылка на XR Grab Interactable ДВЕРИ
@@ -18,12 +18,12 @@ public class Door : MonoBehaviour
     public bool Point3 = false;
     public bool Point4 = false;
     public bool Point5 = false;
-
+    public bool Point6 = false;
     private bool isUnlocked = false;                        //счетчик
 
     public void Update()
     {
-        if (Point1 && Point2 && Point3 && Point4 && Point5) { Unlock(); }
+        if (Point1 && Point2 && Point3 && Point4 && Point5 && Point6) { Unlock(); }
     }
     void Start()
     {

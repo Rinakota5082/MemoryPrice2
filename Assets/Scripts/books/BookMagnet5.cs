@@ -4,7 +4,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class BookMagnet5 : MonoBehaviour
 {
     [Header("Настройки")]
-    [SerializeField] private Door doorToUnlock;
+    [SerializeField] private Door1 doorToUnlock;
     public float snapDistance = 0.15f;
     public float snapSpeed = 10f;
     public string slotTag = "BookSlot5";
@@ -70,8 +70,6 @@ public class BookMagnet5 : MonoBehaviour
         isPlaced = true;
         transform.SetParent(targetSlot);
         doorToUnlock.Point5 = true;
-
-        FindObjectOfType<PuzzleManager>()?.CheckAllBooksPlaced();
     }
     private void OnTriggerEnter(Collider other)
     {

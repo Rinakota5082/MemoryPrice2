@@ -20,6 +20,10 @@ TagManager:
   - Pl_RADIHEAD
   - Pl_100
   - Pl_CORN
+  - BreakFoto
+  - TrueFoto
+  - Musor
+  - TrueF
   layers:
   - Default
   - TransparentFX
