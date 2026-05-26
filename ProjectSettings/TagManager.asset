@@ -24,6 +24,7 @@ TagManager:
   - TrueFoto
   - Musor
   - TrueF
+  - Subtitle
   layers:
   - Default
   - TransparentFX

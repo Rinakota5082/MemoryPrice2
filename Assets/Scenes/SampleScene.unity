@@ -27217,13 +27217,14 @@ GameObject:
   - component: {fileID: 908266146}
   - component: {fileID: 908266145}
   - component: {fileID: 908266144}
+  - component: {fileID: 908266147}
   m_Layer: 0
   m_Name: Start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &908266144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27242,6 +27243,8 @@ MonoBehaviour:
     \u0422\u044B, \u043D\u0430\u0432\u0435\u0440\u043D\u043E\u0435, \u043D\u0438\u0447\u0435\u0433\u043E
     \u043D\u0435 \u043F\u043E\u043C\u043D\u0438\u0448\u044C. \u042D\u0442\u043E \u043D\u043E\u0440\u043C\u0430\u043B\u044C\u043D\u043E."
   playOnce: 1
+  manualSubtitleDisplay: {fileID: 1990039153}
+  subtitleTag: Subtitle
 --- !u!65 &908266145
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27278,6 +27281,103 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &908266147
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 908266143}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 43bf5f1ac2f3dcf4d9733bc22be064f0, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &913582501
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61362,7 +61462,7 @@ GameObject:
   - component: {fileID: 1990039153}
   m_Layer: 5
   m_Name: SubtitleText
-  m_TagString: Untagged
+  m_TagString: Subtitle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -63567,6 +63667,111 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2058900213}
   m_CullTransparentMesh: 1
+--- !u!1 &2059684405
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2059684407}
+  - component: {fileID: 2059684406}
+  m_Layer: 0
+  m_Name: IntroManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2059684406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2059684405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd4a37f0131dc0741a07e12c73649106, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IntroSequenceManager
+  voicePrefab: {fileID: 61683579833601228, guid: 3dc90a561aed20d42bec5ed387b2c071, type: 3}
+  replicas:
+  - voiceClip: {fileID: 8300000, guid: 43bf5f1ac2f3dcf4d9733bc22be064f0, type: 3}
+    subtitleText: "\u0417\u0434\u0440\u0430\u0432\u0441\u0442\u0432\u0443\u0439,
+      \u041C\u0430\u0440\u043A. \u0422\u044B, \u043D\u0430\u0432\u0435\u0440\u043D\u043E\u0435,
+      \u043D\u0438\u0447\u0435\u0433\u043E \u043D\u0435 \u043F\u043E\u043C\u043D\u0438\u0448\u044C.
+      \u042D\u0442\u043E \u043D\u043E\u0440\u043C\u0430\u043B\u044C\u043D\u043E."
+  - voiceClip: {fileID: 8300000, guid: f676f6fa6f768394991dbab1b71b0c54, type: 3}
+    subtitleText: "\u041C\u0435\u043D\u044F \u0437\u043E\u0432\u0443\u0442\u2026
+      \u0412\u043F\u0440\u043E\u0447\u0435\u043C, \u043D\u0435\u0432\u0430\u0436\u043D\u043E.
+      \u042F \u2014 \u0442\u043E\u0442, \u043A\u0442\u043E \u0433\u043E\u0432\u043E\u0440\u0438\u0442
+      \u0443 \u0442\u0435\u0431\u044F \u0432 \u0433\u043E\u043B\u043E\u0432\u0435.
+      \u0422\u043E\u0442, \u043A\u0442\u043E \u043F\u043E\u043C\u043E\u0433\u0430\u0435\u0442
+      \u0442\u0435\u043C, \u043A\u0442\u043E \u043F\u043E\u0442\u0435\u0440\u044F\u043B
+      \u0441\u0435\u0431\u044F. \u0410 \u0442\u044B \u043F\u043E\u0442\u0435\u0440\u044F\u043B,
+      \u041C\u0430\u0440\u043A. \u0421\u0438\u043B\u044C\u043D\u043E \u043F\u043E\u0442\u0435\u0440\u044F\u043B."
+  - voiceClip: {fileID: 8300000, guid: c4f6813aaae78814c858dd60fd9e9cc7, type: 3}
+    subtitleText: "\u0422\u044B \u0437\u0434\u0435\u0441\u044C, \u043F\u043E\u0442\u043E\u043C\u0443
+      \u0447\u0442\u043E \u0441\u043B\u0443\u0447\u0438\u043B\u043E\u0441\u044C \u043A\u043E\u0435-\u0447\u0442\u043E\u2026
+      \u043D\u0435\u043F\u0440\u0438\u044F\u0442\u043D\u043E\u0435. \u0410\u0432\u0430\u0440\u0438\u044F.
+      \u0422\u044B \u0431\u044B\u043B \u0437\u0430 \u0440\u0443\u043B\u0451\u043C.
+      \u0421 \u0442\u043E\u0431\u043E\u0439 \u0431\u044B\u043B\u0430 \u0442\u0432\u043E\u044F
+      \u0441\u0435\u0441\u0442\u0440\u0430 \u2014 \u041B\u0438\u044F."
+  - voiceClip: {fileID: 8300000, guid: 1de9f30dda2cbcf4aa7909b944c19dd7, type: 3}
+    subtitleText: "\u0421\u0435\u0439\u0447\u0430\u0441 \u0442\u044B \u043D\u0435
+      \u0432 \u0440\u0435\u0430\u043B\u044C\u043D\u043E\u043C \u043C\u0438\u0440\u0435.
+      \u0422\u044B \u0432\u043D\u0443\u0442\u0440\u0438 \u0441\u0435\u0431\u044F.
+      \u0418 \u043C\u044B \u0432\u043C\u0435\u0441\u0442\u0435 \u0431\u0443\u0434\u0435\u043C
+      \u0441\u043E\u0431\u0438\u0440\u0430\u0442\u044C \u044D\u0442\u0443 \u043C\u043E\u0437\u0430\u0438\u043A\u0443
+      \u2014 \u0432\u043E\u0441\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u0435
+      \u0437\u0430 \u0432\u043E\u0441\u043F\u043E\u043C\u0438\u043D\u0430\u043D\u0438\u0435\u043C."
+  - voiceClip: {fileID: 8300000, guid: f9b689268a813194b9fc8770a45913d9, type: 3}
+    subtitleText: "\u041F\u0440\u0430\u0432\u0438\u043B\u0430 \u043F\u0440\u043E\u0441\u0442\u044B\u0435.
+      \u041E\u0441\u043C\u0430\u0442\u0440\u0438\u0432\u0430\u0439\u0441\u044F. \u041D\u0430\u0445\u043E\u0434\u0438
+      \u043F\u0440\u0435\u0434\u043C\u0435\u0442\u044B. \u0420\u0435\u0448\u0430\u0439
+      \u0437\u0430\u0433\u0430\u0434\u043A\u0438. \u0412\u0441\u043F\u043E\u043C\u0438\u043D\u0430\u0439.
+      \u0418 \u043D\u0435 \u043F\u044B\u0442\u0430\u0439\u0441\u044F \u043C\u0435\u043D\u044F
+      \u043E\u0431\u043C\u0430\u043D\u0443\u0442\u044C \u2014 \u044F \u0432\u0435\u0434\u044C
+      \u0447\u0438\u0442\u0430\u044E \u0442\u0432\u043E\u0438 \u043C\u044B\u0441\u043B\u0438."
+  - voiceClip: {fileID: 8300000, guid: 36ee5b92d6427ee4ba070333ab8d74db, type: 3}
+    subtitleText: "\u042F \u0431\u0443\u0434\u0443 \u0440\u044F\u0434\u043E\u043C.
+      \u0411\u0443\u0434\u0443 \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C.
+      \u041F\u043E\u0434\u0441\u043A\u0430\u0437\u044B\u0432\u0430\u0442\u044C\u2026
+      \u0438\u043D\u043E\u0433\u0434\u0430. \u041D\u043E \u0432\u044B\u0431\u043E\u0440
+      \u0432\u0441\u0435\u0433\u0434\u0430 \u0437\u0430 \u0442\u043E\u0431\u043E\u0439.
+      \u041D\u0443 \u0447\u0442\u043E\u2026 \u0433\u043E\u0442\u043E\u0432 \u0432\u0441\u043F\u043E\u043C\u043D\u0438\u0442\u044C? "
+  - voiceClip: {fileID: 8300000, guid: cf7370fa3e3a9304f89ec3af05e7747a, type: 3}
+    subtitleText: "\u0415\u0451 \u043A\u043E\u043C\u043D\u0430\u0442\u0430. \u041F\u043E\u043C\u043D\u0438\u0448\u044C,
+      \u041C\u0430\u0440\u043A? \u041A\u0430\u043A \u043E\u043D\u0430 \u0431\u043E\u044F\u043B\u0430\u0441\u044C
+      \u0442\u0435\u043C\u043D\u043E\u0442\u044B. \u0422\u044B \u0432\u0441\u0435\u0433\u0434\u0430
+      \u0432\u043A\u043B\u044E\u0447\u0430\u043B \u043D\u043E\u0447\u043D\u0438\u043A\u2026
+      \u043F\u043E\u0441\u043B\u0435 \u0442\u043E\u0433\u043E, \u043A\u0430\u043A
+      \u0447\u0438\u0442\u0430\u043B \u0441\u043A\u0430\u0437\u043A\u0438. \u0412\u0441\u0435\u0433\u0434\u0430
+      \u043E\u0434\u043D\u0438 \u0438 \u0442\u0435 \u0436\u0435, \u0432 \u043E\u0434\u043D\u043E\u043C
+      \u043F\u043E\u0440\u044F\u0434\u043A\u0435. \xAB\u0427\u0442\u043E\u0431\u044B
+      \u043C\u043E\u043D\u0441\u0442\u0440\u044B \u043D\u0435 \u043F\u0440\u0438\u0448\u043B\u0438\xBB,
+      \u2014 \u0433\u043E\u0432\u043E\u0440\u0438\u043B\u0430 \u043E\u043D\u0430."
+  delayBetweenReplicas: 0.3
+  playOnStart: 1
+  startDelay: 1
+  subtitleDisplay: {fileID: 1990039153}
+--- !u!4 &2059684407
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2059684405}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.79453, y: 0.39432, z: 1.50731}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2060336802
 GameObject:
   m_ObjectHideFlags: 0
@@ -66870,6 +67075,7 @@ SceneRoots:
   - {fileID: 628966502}
   - {fileID: 1311423221}
   - {fileID: 163311434}
+  - {fileID: 1685608576}
   - {fileID: 1136477289}
   - {fileID: 1316045352}
   - {fileID: 1466693405}
@@ -66886,9 +67092,9 @@ SceneRoots:
   - {fileID: 1793939634}
   - {fileID: 1687882136}
   - {fileID: 328308012}
-  - {fileID: 1685608576}
   - {fileID: 1080338338}
   - {fileID: 1544758634}
   - {fileID: 737248123}
   - {fileID: 908266146}
   - {fileID: 6556621371760950231}
+  - {fileID: 2059684407}

@@ -144,6 +144,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TypewriterSubtitle
   voiceClip: {fileID: 0}
   subtitleText: 
+  subtitleDisplay: {fileID: 0}
   charsPerSecond: 20
   clearOnFinish: 1
-  subtitleDisplay: {fileID: 0}
