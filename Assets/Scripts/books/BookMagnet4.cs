@@ -9,6 +9,10 @@ public class BookMagnet4 : MonoBehaviour
     public float snapSpeed = 10f;
     public string slotTag = "BookSlot4";
     public Transform targetSlot;
+
+    [Header("Имя книги (для проверки порядка)")]
+    public string bookName = "Гарри Поттер";
+
     private bool isSnapping = false;
     private bool isPlaced = false;
     private Rigidbody rb;
@@ -72,7 +76,12 @@ public class BookMagnet4 : MonoBehaviour
 
         if (doorToUnlock != null)
             doorToUnlock.Point4 = true;
-
+        BookPuzzleManager puzzleManager = FindFirstObjectByType<BookPuzzleManager>();
+        if (puzzleManager != null)
+        {
+            // Передаём слот и имя книги (имя нужно задать в инспекторе)
+            puzzleManager.BookPlaced(targetSlot, bookName);
+        }
     }
     private void OnTriggerEnter(Collider other)
     {

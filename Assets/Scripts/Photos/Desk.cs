@@ -70,5 +70,6 @@ public class Desk : MonoBehaviour
             }
             else { fotos.foto5 = true; }
         }
+        
     }
 }
