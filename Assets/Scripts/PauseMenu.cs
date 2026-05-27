@@ -1,4 +1,4 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
@@ -8,7 +8,7 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private string menuSceneName = "MainMenuScene";
 
     [Header("Behavior")]
-    [Tooltip("Для VR обычно лучше false, чтобы локомоция не ломалась.")]
+    [Tooltip("Р”Р»СЏ VR РѕР±С‹С‡РЅРѕ Р»СѓС‡С€Рµ false, С‡С‚РѕР±С‹ Р»РѕРєРѕРјРѕС†РёСЏ РЅРµ Р»РѕРјР°Р»Р°СЃСЊ.")]
     [SerializeField] private bool freezeTimeOnPause = false;
 
     private bool isPaused;
@@ -27,12 +27,12 @@ public class PauseMenu : MonoBehaviour
 
     private void OnDisable()
     {
-        // Если объект выключили во время паузы, гарантированно возвращаем игру.
         if (isPaused)
             Resume();
 
         inputActions?.Disable();
     }
+
 
     private void OnDestroy()
     {
@@ -47,8 +47,6 @@ public class PauseMenu : MonoBehaviour
         if (pauseMenuPanel != null)
             pauseMenuPanel.SetActive(false);
 
-
-        // На всякий случай, если сцена ранее осталась в паузе.
         Time.timeScale = 1f;
     }
 
@@ -77,6 +75,20 @@ public class PauseMenu : MonoBehaviour
         Cursor.visible = true;
     }
 
+    //public void Resume()
+    //{
+    //    isPaused = false;
+
+    //    if (pauseMenuPanel != null)
+    //        pauseMenuPanel.SetActive(false);
+
+    //    Time.timeScale = 1f;
+
+    //    Cursor.lockState = CursorLockMode.Locked;
+    //    Cursor.visible = false;
+    //}
+
+
     public void Resume()
     {
         isPaused = false;
@@ -85,29 +97,84 @@ public class PauseMenu : MonoBehaviour
             pauseMenuPanel.SetActive(false);
 
         Time.timeScale = 1f;
-
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Locked;  // Р”Р»СЏ VR РјРѕР¶РµС‚ Р±С‹С‚СЊ None
         Cursor.visible = false;
     }
 
+
+
+    //public void SaveAndQuitToMenu()
+    //{
+    //    // рџ”Ґ РќРђРҐРћР”РРњ РР“Р РћРљРђ Р РЎРћРҐР РђРќРЇР•Рњ Р•Р“Рћ РџРћР—РР¦РР®
+    //    GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+    //    if (player != null)
+    //    {
+    //        // РџС‹С‚Р°РµРјСЃСЏ РЅР°Р№С‚Рё РєРѕРјРїРѕРЅРµРЅС‚ СЃРѕС…СЂР°РЅРµРЅРёСЏ
+    //        PlayerPositionSaver saver = player.GetComponent<PlayerPositionSaver>();
+    //        if (saver != null)
+    //        {
+    //            saver.SavePosition();
+    //            Debug.Log($"[Pause] РРіСЂР° СЃРѕС…СЂР°РЅРµРЅР° С‡РµСЂРµР· PlayerPositionSaver!");
+    //        }
+    //        else
+    //        {
+    //            // Р•СЃР»Рё РЅРµС‚ РєРѕРјРїРѕРЅРµРЅС‚Р°, СЃРѕС…СЂР°РЅСЏРµРј РЅР°РїСЂСЏРјСѓСЋ С‡РµСЂРµР· SimpleSaveManager
+    //            if (SimpleSaveManager.Instance != null)
+    //            {
+    //                SimpleSaveManager.Instance.SaveGame(player.transform);
+    //                Debug.Log($"[Pause] РРіСЂР° СЃРѕС…СЂР°РЅРµРЅР° РЅР°РїСЂСЏРјСѓСЋ! РџРѕР·РёС†РёСЏ: {player.transform.position}");
+    //            }
+    //            else
+    //            {
+    //                Debug.LogWarning("[Pause] SimpleSaveManager.Instance = null! РќРµ СѓРґР°Р»РѕСЃСЊ СЃРѕС…СЂР°РЅРёС‚СЊ.");
+    //            }
+    //        }
+    //    }
+    //    else
+    //    {
+    //        Debug.LogWarning("[Pause] РРіСЂРѕРє СЃ С‚РµРіРѕРј 'Player' РЅРµ РЅР°Р№РґРµРЅ! РџСЂРѕРІРµСЂСЊ С‚РµРі Сѓ XR Origin.");
+    //    }
+
+    //    // Р’РѕР·РІСЂР°С‰Р°РµРј РІСЂРµРјСЏ Рё РіСЂСѓР·РёРј РјРµРЅСЋ
+    //    Time.timeScale = 1f;
+    //    SceneManager.LoadScene(menuSceneName);
+    //}
     public void SaveAndQuitToMenu()
     {
-        //Ищем игрока по тегу "Player" (должен висеть на XR Origin!)
+        // рџ”Ґ РќРђРҐРћР”РРњ РР“Р РћРљРђ Р РЎРћРҐР РђРќРЇР•Рњ Р•Р“Рћ РџРћР—РР¦РР®
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 
         if (player != null)
         {
-            // Сохраняем через наш SaveSystem (сцена + позиция + поворот)
-
-            Debug.Log($"[Pause] Игра сохранена: {player.transform.position}");
+            PlayerPositionSaver saver = player.GetComponent<PlayerPositionSaver>();
+            if (saver != null)
+            {
+                saver.SavePosition();
+                Debug.Log($"[Pause] РРіСЂР° СЃРѕС…СЂР°РЅРµРЅР° С‡РµСЂРµР· PlayerPositionSaver!");
+            }
+            else
+            {
+                if (SimpleSaveManager.Instance != null)
+                {
+                    SimpleSaveManager.Instance.SaveGame(player.transform);
+                    Debug.Log($"[Pause] РРіСЂР° СЃРѕС…СЂР°РЅРµРЅР° РЅР°РїСЂСЏРјСѓСЋ!");
+                }
+            }
         }
-        else
-        {
-            Debug.LogWarning("[Pause] Игрок с тегом 'Player' не найден! Проверь тег у XR Origin.");
-        }
 
-        // Возвращаем время и грузим меню
-        Time.timeScale = 1f;
+        // вњ… Р’РђР–РќРћ: РЎР‘Р РђРЎР«Р’РђР•Рњ Р’РЎР• РќРђРЎРўР РћР™РљР РџР•Р Р•Р” Р—РђР“Р РЈР—РљРћР™ РњР•РќР®
+        Time.timeScale = 1f;           // Р’РѕР·РІСЂР°С‰Р°РµРј РЅРѕСЂРјР°Р»СЊРЅРѕРµ РІСЂРµРјСЏ
+        Cursor.lockState = CursorLockMode.None;  // Р Р°Р·Р±Р»РѕРєРёСЂСѓРµРј РєСѓСЂСЃРѕСЂ
+        Cursor.visible = true;         // Р”РµР»Р°РµРј РєСѓСЂСЃРѕСЂ РІРёРґРёРјС‹Рј
+
+        // Р—Р°РєСЂС‹РІР°РµРј РїР°РЅРµР»СЊ РїР°СѓР·С‹, РµСЃР»Рё РѕРЅР° РµС‰С‘ РѕС‚РєСЂС‹С‚Р°
+        if (pauseMenuPanel != null)
+            pauseMenuPanel.SetActive(false);
+
+        isPaused = false;
+
+        // Р—Р°РіСЂСѓР¶Р°РµРј РіР»Р°РІРЅРѕРµ РјРµРЅСЋ
         SceneManager.LoadScene(menuSceneName);
     }
 }

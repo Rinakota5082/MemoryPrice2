@@ -1,4 +1,4 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
@@ -9,43 +9,72 @@ public class MainMenu : MonoBehaviour
     public string gameSceneName = "SampleScene";
     public GameObject loadingScreen;
 
+    //void Start()
+    //{
+    //    if (continueButton == null)
+    //    {
+    //        Debug.LogError("[MENU] continueButton РЅРµ РЅР°Р·РЅР°С‡РµРЅ РІ Inspector!");
+    //        return;
+    //    }
+
+    //    // РџСЂРѕРІРµСЂСЏРµРј, РµСЃС‚СЊ Р»Рё СЃРѕС…СЂР°РЅРµРЅРёРµ
+    //    bool hasSave = SimpleSaveManager.Instance != null && SimpleSaveManager.Instance.HasSave();
+    //    continueButton.interactable = hasSave;
+
+    //    Debug.Log("[MENU] РљРЅРѕРїРєР° Continue Р°РєС‚РёРІРЅР°: " + hasSave);
+
+    //    // РќР• Р”РћР‘РђР’Р›РЇР•Рњ Р§Р•Р Р•Р— РљРћР”, С‡С‚РѕР±С‹ РЅРµ РґСѓР±Р»РёСЂРѕРІР°С‚СЊ РІС‹Р·РѕРІ
+    //    // continueButton.onClick.AddListener(OnContinueClicked);
+    //}
+
+
+
     void Start()
     {
+        // вњ… РџР РРќРЈР”РРўР•Р›Р¬РќР«Р™ РЎР‘Р РћРЎ Р’РЎР•РҐ РќРђРЎРўР РћР•Рљ РџР Р Р—РђР“Р РЈР—РљР• РњР•РќР®
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        // РћСЃС‚Р°Р»СЊРЅРѕР№ РєРѕРґ (РїСЂРѕРІРµСЂРєР° СЃРѕС…СЂР°РЅРµРЅРёСЏ Рё С‚.Рґ.)
         if (continueButton == null)
         {
-            Debug.LogError("[MENU] continueButton не назначен в Inspector!");
+            Debug.LogError("[MENU] continueButton РЅРµ РЅР°Р·РЅР°С‡РµРЅ РІ Inspector!");
             return;
         }
 
-        // Проверяем, есть ли сохранение
         bool hasSave = SimpleSaveManager.Instance != null && SimpleSaveManager.Instance.HasSave();
         continueButton.interactable = hasSave;
-
-        Debug.Log("[MENU] Кнопка Continue активна: " + hasSave);
-
-        // НЕ ДОБАВЛЯЕМ ЧЕРЕЗ КОД, чтобы не дублировать вызов
-        // continueButton.onClick.AddListener(OnContinueClicked);
     }
 
-    // ЭТОТ МЕТОД БУДЕТ ВИДЕН В OnClick
+    // Р­РўРћРў РњР•РўРћР” Р‘РЈР”Р•Рў Р’РР”Р•Рќ Р’ OnClick
     public void OnContinueClicked()
     {
-        Debug.Log("[MENU] Нажата кнопка Continue");
+        Debug.Log("[MENU] РќР°Р¶Р°С‚Р° РєРЅРѕРїРєР° Continue");
         StartCoroutine(LoadGameSceneAndRestorePosition());
     }
 
-    // ЭТОТ МЕТОД БУДЕТ ВИДЕН В OnClick
+    // Р­РўРћРў РњР•РўРћР” Р‘РЈР”Р•Рў Р’РР”Р•Рќ Р’ OnClick
     public void OnNewGame()
     {
-        Debug.Log("[MENU] Новая игра");
-        if (SimpleSaveManager.Instance == null)
-            SceneManager.LoadScene(gameSceneName);
+        Debug.Log("[MENU] РќРѕРІР°СЏ РёРіСЂР°");
+
+        // РЈРґР°Р»СЏРµРј СЃС‚Р°СЂРѕРµ СЃРѕС…СЂР°РЅРµРЅРёРµ
+        if (SimpleSaveManager.Instance != null)
+        {
+            SimpleSaveManager.Instance.DeleteSave();
+            Debug.Log("[MENU] РЎРѕС…СЂР°РЅРµРЅРёРµ СѓРґР°Р»РµРЅРѕ РґР»СЏ РЅРѕРІРѕР№ РёРіСЂС‹");
+        }
+
+        // Р—Р°РіСЂСѓР¶Р°РµРј СЃС†РµРЅСѓ РёРіСЂС‹
+        SceneManager.LoadScene(gameSceneName);
     }
 
-    // ЭТОТ МЕТОД БУДЕТ ВИДЕН В OnClick
+
+    // Р­РўРћРў РњР•РўРћР” Р‘РЈР”Р•Рў Р’РР”Р•Рќ Р’ OnClick
     public void OnExit()
     {
-        Debug.Log("[MENU] Выход из игры");
+        Debug.Log("[MENU] Р’С‹С…РѕРґ РёР· РёРіСЂС‹");
         Application.Quit();
 
 #if UNITY_EDITOR
@@ -55,7 +84,7 @@ public class MainMenu : MonoBehaviour
 
     private IEnumerator LoadGameSceneAndRestorePosition()
     {
-        Debug.Log("[MENU] Начинаем загрузку сцены: " + gameSceneName);
+        Debug.Log("[MENU] РќР°С‡РёРЅР°РµРј Р·Р°РіСЂСѓР·РєСѓ СЃС†РµРЅС‹: " + gameSceneName);
 
         if (loadingScreen != null)
             loadingScreen.SetActive(true);
@@ -68,7 +97,7 @@ public class MainMenu : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("[MENU] Сцена загружена, ждём инициализации...");
+        Debug.Log("[MENU] РЎС†РµРЅР° Р·Р°РіСЂСѓР¶РµРЅР°, Р¶РґС‘Рј РёРЅРёС†РёР°Р»РёР·Р°С†РёРё...");
 
         yield return null;
         yield return null;
@@ -77,29 +106,29 @@ public class MainMenu : MonoBehaviour
 
         if (player != null)
         {
-            Debug.Log("[MENU] Игрок найден: " + player.name);
+            Debug.Log("[MENU] РРіСЂРѕРє РЅР°Р№РґРµРЅ: " + player.name);
 
             PlayerPositionSaver saver = player.GetComponent<PlayerPositionSaver>();
             if (saver != null)
             {
-                Debug.Log("[MENU] Найден PlayerPositionSaver, загружаем позицию...");
+                Debug.Log("[MENU] РќР°Р№РґРµРЅ PlayerPositionSaver, Р·Р°РіСЂСѓР¶Р°РµРј РїРѕР·РёС†РёСЋ...");
                 saver.LoadPosition();
             }
             else
             {
                 Vector3 savedPos = SimpleSaveManager.Instance.GetSavedPosition();
                 player.transform.position = savedPos;
-                Debug.Log("[MENU] Позиция загружена напрямую: " + savedPos);
+                Debug.Log("[MENU] РџРѕР·РёС†РёСЏ Р·Р°РіСЂСѓР¶РµРЅР° РЅР°РїСЂСЏРјСѓСЋ: " + savedPos);
             }
         }
         else
         {
-            Debug.LogError("[MENU] Игрок не найден! Убедитесь, что у объекта игрока стоит тег Player");
+            Debug.LogError("[MENU] РРіСЂРѕРє РЅРµ РЅР°Р№РґРµРЅ! РЈР±РµРґРёС‚РµСЃСЊ, С‡С‚Рѕ Сѓ РѕР±СЉРµРєС‚Р° РёРіСЂРѕРєР° СЃС‚РѕРёС‚ С‚РµРі Player");
         }
 
         if (loadingScreen != null)
             loadingScreen.SetActive(false);
 
-        Debug.Log("[MENU] Загрузка завершена");
+        Debug.Log("[MENU] Р—Р°РіСЂСѓР·РєР° Р·Р°РІРµСЂС€РµРЅР°");
     }
 }
