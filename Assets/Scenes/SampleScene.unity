@@ -4619,8 +4619,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3be50ab5839edee46980f789ef92c0d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerPositionSaver
-  loadOnStart: 1
-  autoSaveOnDestroy: 1
 --- !u!1 &156242264
 GameObject:
   m_ObjectHideFlags: 0
@@ -9278,7 +9276,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &268875345
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15468,13 +15466,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 474711007}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.129, y: 0.319, z: -14.912}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: -2.888, y: 0.943, z: -14.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1077335792}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!65 &474711009
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15494,8 +15492,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.44977635, y: 1.5577517, z: 0.5347804}
-  m_Center: {x: -0.04685083, y: 0.8316028, z: -0.057612777}
+  m_Size: {x: 1.56, y: 0.45, z: 0.5347804}
+  m_Center: {x: -0.04685083, y: 0.3, z: -0.057612777}
 --- !u!1001 &475852934
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15934,13 +15932,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 481493630}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: -3.272, y: 0.779, z: -14.401}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1077335792}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!65 &481493632
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15960,7 +15958,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.19, y: 0.09, z: 0.17}
+  m_Size: {x: 0.09, y: 0.19, z: 0.17}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &487163699
 PrefabInstance:
@@ -16262,7 +16260,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &493618370
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19485,7 +19483,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &658395794
 RectTransform:
   m_ObjectHideFlags: 0
@@ -25992,7 +25990,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &847606410
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27547,8 +27545,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3be50ab5839edee46980f789ef92c0d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerPositionSaver
-  loadOnStart: 1
-  autoSaveOnDestroy: 1
 --- !u!1001 &880912338
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34187,7 +34183,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1137384688
 RectTransform:
   m_ObjectHideFlags: 0
@@ -42156,7 +42152,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1355149188
 RectTransform:
   m_ObjectHideFlags: 0
@@ -46270,7 +46266,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: -1.87, y: 2.0136664, z: 0.13}
   m_Center: {x: -0.08, y: 1.17, z: -0.88}
@@ -46291,7 +46287,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: -1.87, y: 2.0136664, z: 0.15}
   m_Center: {x: -0.08, y: 1.17, z: 1.04}
@@ -46312,7 +46308,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.12, y: 2.0136664, z: 2.0157542}
   m_Center: {x: -0.9, y: 1.17, z: -0.00000023841858}
@@ -46333,7 +46329,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.12, y: 2.0136664, z: 2.0157542}
   m_Center: {x: 0.92, y: 1.17, z: 0.22}
@@ -48415,7 +48411,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1536356534
 RectTransform:
   m_ObjectHideFlags: 0
@@ -58211,7 +58207,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1828581578
 RectTransform:
   m_ObjectHideFlags: 0
