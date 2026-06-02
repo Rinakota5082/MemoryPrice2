@@ -7,6 +7,7 @@ public class Door1 : MonoBehaviour
     [Header("References")]
     [SerializeField] private XRGrabInteractable doorGrab;   // Ññûëêà íà XR Grab Interactable ÄÂÅĞÈ
     [SerializeField] private HingeJoint doorHinge;          // Hinge Joint ÄÂÅĞÈ
+    [SerializeField] private Collider doorCollider;
 
     [Header("Visual & Audio")]
     [SerializeField] private MeshRenderer doorRenderer;
@@ -39,6 +40,7 @@ public class Door1 : MonoBehaviour
     {
         if (isUnlocked) return;
         isUnlocked = true;
+        doorCollider.enabled = false;
         if (doorGrab != null)
             doorGrab.enabled = true;
         if (doorHinge != null)

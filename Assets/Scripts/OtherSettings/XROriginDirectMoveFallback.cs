@@ -94,12 +94,12 @@ public sealed class XROriginDirectMoveFallback : MonoBehaviour
 
         if (debugLogs)
         {
-            if (actions == null)
-                Debug.LogWarning($"[{nameof(XROriginDirectMoveFallback)}] No InputActionAsset found.", this);
-            else if (moveAction == null)
-                Debug.LogWarning($"[{nameof(XROriginDirectMoveFallback)}] Can't find action '{actionMapName}/{moveActionName}' in asset '{actions.name}'.", this);
-            else
-                Debug.Log($"[{nameof(XROriginDirectMoveFallback)}] Using action '{actionMapName}/{moveActionName}' from '{actions.name}'.", this);
+            if (actions == null) { }
+               // Debug.LogWarning($"[{nameof(XROriginDirectMoveFallback)}] No InputActionAsset found.", this);
+            else if (moveAction == null) { }
+                //Debug.LogWarning($"[{nameof(XROriginDirectMoveFallback)}] Can't find action '{actionMapName}/{moveActionName}' in asset '{actions.name}'.", this);
+            else { }
+               // Debug.Log($"[{nameof(XROriginDirectMoveFallback)}] Using action '{actionMapName}/{moveActionName}' from '{actions.name}'.", this);
         }
     }
 
@@ -134,8 +134,8 @@ public sealed class XROriginDirectMoveFallback : MonoBehaviour
         if (forceTransformMove)
         {
             transform.position = before + desired;
-            if (debugLogs)
-                Debug.Log($"[{nameof(XROriginDirectMoveFallback)}] TRANSFORM move input={input} desired={desired} pos {before} -> {transform.position}", this);
+            if (debugLogs) { }
+               // Debug.Log($"[{nameof(XROriginDirectMoveFallback)}] TRANSFORM move input={input} desired={desired} pos {before} -> {transform.position}", this);
             return;
         }
 
@@ -164,13 +164,13 @@ public sealed class XROriginDirectMoveFallback : MonoBehaviour
                 stuckFrames = 0;
                 transform.position = before + desired;
                 if (debugLogs)
-                    Debug.LogWarning($"[{nameof(XROriginDirectMoveFallback)}] CC blocked (Sides). Auto-bypassing with TRANSFORM move this frame.", this);
+                    //Debug.LogWarning($"[{nameof(XROriginDirectMoveFallback)}] CC blocked (Sides). Auto-bypassing with TRANSFORM move this frame.", this);
                 return;
             }
         }
 
-        if (debugLogs)
-            Debug.Log($"[{nameof(XROriginDirectMoveFallback)}] CC move input={input} desired={desired} actual={actual} flags={flags} pos {before} -> {after}", this);
+        if (debugLogs) { }
+            //Debug.Log($"[{nameof(XROriginDirectMoveFallback)}] CC move input={input} desired={desired} actual={actual} flags={flags} pos {before} -> {after}", this);
     }
 
     static InputActionAsset TryGetActionsFromAnyInputActionManager(string requiredMapName)
