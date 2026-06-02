@@ -1,27 +1,5 @@
-﻿//using UnityEngine;
-
-//public class FotoManeger : MonoBehaviour
-//{
-//    [SerializeField] private Door1 doorToUnlock;
-//    public bool foto1 = false;
-//    public bool foto2 = false;
-//    public bool foto3 = false;
-//    public bool foto4 = false;
-//    public bool foto5 = false;
-//    public bool foto6 = false;
-//    void Start()
-//    {
-
-//    }
-//    void Update()
-//    {
-//        if (foto1 && foto2 && foto3 && foto4 && foto5) { doorToUnlock.Point6 = true; }
-//    }
-
-//}
-
-
-using UnityEngine;
+﻿using UnityEngine;
+using TMPro;
 
 public class FotoManeger : MonoBehaviour
 {
@@ -109,6 +87,34 @@ public class FotoManeger : MonoBehaviour
         {
             Debug.LogWarning("❌ Не назначен subtitleSpeaker или successClip в FotoManeger!");
         }
+        Debug.Log("🔍 ShowSuccessFeedback() вызван!");
+
+        if (subtitleSpeaker == null)
+        {
+            Debug.LogError("❌ subtitleSpeaker = null!");
+            return;
+        }
+
+        // Дополнительная проверка: если у subtitleSpeaker нет текста — ищем по тегу
+        if (subtitleSpeaker.subtitleDisplay == null)
+        {
+            GameObject textObject = GameObject.FindGameObjectWithTag("Subtitle");
+            if (textObject != null)
+            {
+                subtitleSpeaker.subtitleDisplay = textObject.GetComponent<TextMeshProUGUI>();
+                Debug.Log("✅ FotoManeger: текст найден по тегу и назначен в subtitleSpeaker");
+            }
+        }
+
+        if (successClip == null)
+        {
+            Debug.LogError("❌ successClip = null!");
+            return;
+        }
+
+        subtitleSpeaker.voiceClip = successClip;
+        subtitleSpeaker.subtitleText = successText;
+        subtitleSpeaker.Play();
     }
 
     // 🔥 НОВЫЙ МЕТОД: неправильное решение
@@ -126,5 +132,6 @@ public class FotoManeger : MonoBehaviour
             Debug.LogWarning("❌ Не назначен subtitleSpeaker или failClip в FotoManeger!");
         }
     }
+
 }
 
