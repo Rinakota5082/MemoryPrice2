@@ -83,6 +83,7 @@ public class KeypadController : MonoBehaviour
         }
         if (currentInput.Length == maxDigits && !isCodeCorrect)
         {
+            Debug.Log(currentInput);
             CheckCode();
         }
     }
@@ -110,20 +111,23 @@ public class KeypadController : MonoBehaviour
     public void CheckCode()
     {
         if (isCodeCorrect) return;
+        int n = 0;
         foreach (Codes correctcode in correctCode)
         {
+            Debug.Log(correctcode);
             if (currentInput == correctcode.digit)
             {
+                n += 1;
                 isCodeCorrect = true;
+                Debug.Log(currentInput);
+                doorToUnlock.Unlock();
                 if (displayRenderer != null)
                     displayRenderer.material = correctCodeMaterial;
                 if (audioSource != null && correctSound != null)
                     audioSource.PlayOneShot(correctSound);
-
-                if (doorToUnlock != null)
-                    doorToUnlock.Unlock();
-            }
-            else
+                
+            } }
+            if(n==0)
             {
                 if (displayRenderer != null && wrongCodeMaterial != null)
                 {
@@ -135,8 +139,8 @@ public class KeypadController : MonoBehaviour
                     audioSource.PlayOneShot(wrongSound);
                 currentInput = "";
                 OnCodeUpdated?.Invoke(currentInput);
+            
             }
-        }
     }
     private void ResetDisplayColor()
     {
